@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>理科 化学 問題</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;background:linear-gradient(135deg,#071408,#0a1e0e 60%,#060c10);font-family:'Hiragino Kaku Gothic ProN',sans-serif;color:#e8f0e8}
+.grid{position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(80,200,120,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(80,200,120,.03) 1px,transparent 1px);background-size:40px 40px}
+.wrap{max-width:640px;margin:0 auto;padding:16px 14px}
+.hd{text-align:center;margin-bottom:18px}
+.hd-sub{font-size:.68rem;letter-spacing:.24em;color:#4caf50;text-transform:uppercase;margin-bottom:4px}
+.hd-title{font-size:1.5rem;font-weight:900;background:linear-gradient(90deg,#80ff80,#b0ffb0,#80e8ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.badge{display:inline-block;border-radius:20px;padding:2px 12px;font-size:.76rem}
+.badges{margin-top:8px;display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.card{background:linear-gradient(135deg,rgba(10,30,15,.95),rgba(15,40,20,.9));border-radius:13px;padding:13px 16px;margin-bottom:9px;cursor:pointer;transition:transform .16s,filter .16s;border-left:4px solid}
+.card:hover{transform:translateY(-2px) scale(1.013);filter:brightness(1.1)}
+.choice{border-radius:11px;padding:12px 14px;display:flex;align-items:center;gap:10px;font-size:.92rem;margin-bottom:8px;cursor:pointer;transition:all .12s;border:1px solid #252545;background:rgba(18,30,20,.85);color:#c8e8c8}
+.choice:hover{filter:brightness(1.12);transform:translateX(3px)}
+.choice.answered{cursor:default;transform:none}
+.prog{height:4px;background:#1a2a1a;border-radius:4px;margin-bottom:14px;overflow:"hidden"}
+.prog-bar{height:100%;border-radius:4px;transition:width .4s}
+.qbox{background:linear-gradient(135deg,rgba(10,30,15,.97),rgba(15,40,22,.9));border-radius:16px;padding:20px 18px;margin-bottom:14px;font-size:.95rem;line-height:1.85;color:#c8e8c8}
+.result-banner{border-radius:12px;padding:12px 15px;margin-bottom:11px}
+.fill-input{width:100%;padding:14px 16px;border-radius:12px;background:rgba(10,25,15,.9);color:#e8f0e8;font-size:1rem;outline:none;margin-bottom:12px;transition:border .2s}
+.btn{padding:13px;border-radius:12px;border:none;color:#fff;font-weight:700;font-size:.95rem;cursor:pointer;transition:filter .14s;width:100%}
+.btn:hover{filter:brightness(1.15)}
+.btn-sm{padding:8px 0;border-radius:9px;font-size:.8rem;font-weight:600;cursor:pointer;flex:1;transition:filter .14s;border:none}
+.btn-sm:hover{filter:brightness(1.15)}
+.btn-back{background:rgba(80,200,120,.1);border:1px solid #334;border-radius:8px;color:#778;padding:4px 11px;font-size:.74rem;cursor:pointer}
+.btn-back:hover{filter:brightness(1.2)}
+.tag{font-size:.68rem;color:#3a3;background:rgba(80,200,80,.1);border:1px solid rgba(80,200,80,.2);border-radius:6px;padding:2px 8px;margin-bottom:8px;display:inline-block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fade{animation:fadeIn .4s ease}
+</style>
+</head>
+<body>
+<div class="grid"></div>
+<div class="wrap" id="app"></div>
+<script>
+// ── 問題データ ──────────────────────────────────────
+const UNITS = [
+  {
+    id:"u1", label:"1章 物質のなり立ち", icon:"⚗️", color:"#27ae60",
+    qs:[
+      {type:"select",q:"もとの物質とちがう物質ができる変化を何というか。",choices:["化学変化","物理変化","状態変化","電気分解"],a:"化学変化",exp:"化学反応ともいう。化学変化では新しい物質ができる。"},
+      {type:"select",q:"1種類の物質が2種類以上の物質に分かれる化学変化を何というか。",choices:["分解","化合","酸化","還元"],a:"分解",exp:"例：炭酸水素ナトリウムを加熱すると炭酸ナトリウム・水・二酸化炭素に分解する。"},
+      {type:"select",q:"物質に熱を加えて分解することを何というか。",choices:["熱分解","電気分解","酸化","化合"],a:"熱分解",exp:"炭酸水素ナトリウムの加熱分解が代表例。"},
+      {type:"select",q:"物質に電流を流して分解することを何というか。",choices:["電気分解","熱分解","分解","イオン化"],a:"電気分解",exp:"水に水酸化ナトリウムを加えて電流を流すと、水素と酸素に分解される。"},
+      {type:"fill",q:"物質をつくっている粒子で、それ以上分割することができない粒子を【　】という。",a:"原子",exp:"原子の種類を元素という。"},
+      {type:"fill",q:"原子の種類のことを【　】という。",a:"元素",exp:"元素を1〜2文字のアルファベットで表したものが元素記号。"},
+      {type:"fill",q:"元素を表す1文字または2文字のアルファベットからなる記号を【　】という。",a:"元素記号",exp:"例：水素H、酸素O、炭素C、銅Cu、鉄Feなど。"},
+      {type:"select",q:"原子を原子番号の順に並べ、性質をもとに元素を整理した表を何というか。",choices:["元素の周期表","分子モデル","化学反応式","物質一覧表"],a:"元素の周期表",exp:"縦の列を族、横の行を周期という。"},
+      {type:"fill",q:"いくつかの原子が結びついてできた、物質の性質を示す最小単位の粒子を【　】という。",a:"分子",exp:"例：水分子H₂O、酸素分子O₂など。"},
+      {type:"fill",q:"元素記号を用いて物質を表したものを【　】という。",a:"化学式",exp:"例：水はH₂O、二酸化炭素はCO₂。"},
+      {type:"select",q:"1種類の元素だけでできている物質を何というか。",choices:["単体","化合物","混合物","元素"],a:"単体",exp:"例：酸素O₂、銅Cu、鉄Feなど。"},
+      {type:"select",q:"2種類以上の元素からできている物質を何というか。",choices:["化合物","単体","混合物","分子"],a:"化合物",exp:"例：水H₂O、塩化ナトリウムNaCl、二酸化炭素CO₂など。"},
+      {type:"select",q:"2種類以上の物質が混じり合っているものを何というか。",choices:["混合物","化合物","単体","合金"],a:"混合物",exp:"例：空気（窒素・酸素などの混合物）、食塩水など。"},
+      {type:"fill",q:"炭酸水素ナトリウムを加熱すると発生する、石灰水を白くにごらせる気体は【　】である。",a:"二酸化炭素",exp:"化学式はCO₂。石灰水（水酸化カルシウム水溶液）と反応して炭酸カルシウムの白い沈殿ができる。"},
+      {type:"fill",q:"炭酸水素ナトリウムを加熱すると生じる、青色の塩化コバルト紙を桃色に変える液体は【　】である。",a:"水",exp:"化学式はH₂O。塩化コバルト紙が青→桃色に変化することで水の存在を確認できる。"},
+    ]
+  },
+  {
+    id:"u2", label:"2章 物質どうしの化学変化", icon:"🔬", color:"#2471a3",
+    qs:[
+      {type:"fill",q:"化学式を組み合わせて化学変化を表した式を【　】という。",a:"化学反応式",exp:"例：2H₂+O₂→2H₂O（水素と酸素が結びついて水ができる）"},
+      {type:"fill",q:"鉄と硫黄が結びついてできた黒色の物質を【　】という。",a:"硫化鉄",exp:"化学式はFeS。磁石につかず、塩酸を加えると腐卵臭のある硫化水素が発生する。"},
+      {type:"select",q:"鉄と硫黄の反応後にできた物質に塩酸を加えたとき発生する、腐卵臭のある気体は何か。",choices:["硫化水素","水素","二酸化硫黄","塩素"],a:"硫化水素",exp:"化学式はH₂S。腐卵臭（腐った卵のような臭い）が特徴。"},
+      {type:"select",q:"鉄と硫黄の混合物（反応前）に塩酸を加えたとき発生する気体は何か。",choices:["水素","硫化水素","酸素","二酸化炭素"],a:"水素",exp:"反応前の混合物には鉄が含まれており、塩酸と反応して水素H₂が発生する。"},
+      {type:"fill",q:"鉄と硫黄の反応を化学反応式で表すと「Fe＋S→【　】」となる。",a:"FeS",exp:"鉄（Fe）と硫黄（S）が結びついて硫化鉄（FeS）ができる。"},
+      {type:"select",q:"炭酸水素ナトリウムが消火剤として使われる理由に関係する化学変化は何か。",choices:["熱分解","電気分解","酸化","中和"],a:"熱分解",exp:"炭酸水素ナトリウムは熱で分解してCO₂を発生させ、炎と酸素が接するのを防ぐ。"},
+    ]
+  },
+  {
+    id:"u3", label:"3章 酸素がかかわる化学変化", icon:"🔥", color:"#c0392b",
+    qs:[
+      {type:"fill",q:"物質が酸素と結びつくことを【　】という。",a:"酸化",exp:"酸化によってできる物質を酸化物という。例：銅＋酸素→酸化銅"},
+      {type:"fill",q:"酸化によってできる物質を【　】という。",a:"酸化物",exp:"例：酸化銅CuO、酸化マグネシウムMgO、酸化鉄Fe₂O₃など。"},
+      {type:"fill",q:"物質が熱や光を出しながら激しく酸化されることを【　】という。",a:"燃焼",exp:"酸化の中でも特に激しい反応。スチールウール（鉄）やマグネシウムの燃焼が例。"},
+      {type:"fill",q:"酸化物から酸素がうばわれる化学変化を【　】という。",a:"還元",exp:"酸化と還元は同時に起こる。例：酸化銅＋炭素→銅＋二酸化炭素"},
+      {type:"select",q:"銅板を空気中で加熱したとき、表面にできる黒色の物質は何か。",choices:["酸化銅","硫化銅","炭素","酸化マグネシウム"],a:"酸化銅",exp:"銅（Cu）が空気中の酸素と結びついて酸化銅（CuO）ができる。化学反応式：2Cu＋O₂→2CuO"},
+      {type:"fill",q:"銅を加熱して酸化銅ができるときの化学反応式は「2Cu＋O₂→【　】」である。",a:"2CuO",exp:"銅2個と酸素分子1個が反応して酸化銅が2個できる。"},
+      {type:"select",q:"マグネシウムを加熱したとき、激しく光を出して燃える変化を特に何というか。",choices:["燃焼","酸化","還元","化合"],a:"燃焼",exp:"マグネシウムの燃焼：2Mg＋O₂→2MgO。白色の酸化マグネシウムができる。"},
+      {type:"fill",q:"マグネシウムを加熱したときの化学反応式は「2Mg＋O₂→【　】」である。",a:"2MgO",exp:"酸化マグネシウム（MgO）は白色の物質。"},
+      {type:"fill",q:"水素と酸素が反応して水ができるときの化学反応式は「2H₂＋O₂→【　】」である。",a:"2H₂O",exp:"水素と酸素が結びついて水ができる。筒内の水面が上昇するのは気体が減るからである。"},
+      {type:"select",q:"木片を燃やしたあと、石灰水が白くにごったことからわかることは何か。",choices:["二酸化炭素ができた","水素ができた","酸素ができた","窒素ができた"],a:"二酸化炭素ができた",exp:"石灰水が白くにごる→二酸化炭素が発生。木片には炭素原子がふくまれていることがわかる。"},
+      {type:"select",q:"木片を燃やしたあと、集気びんの内側が白くもってに、青色の塩化コバルト紙が桃色になったことからわかることは何か。",choices:["水ができた","二酸化炭素ができた","酸素ができた","硫化水素ができた"],a:"水ができた",exp:"塩化コバルト紙が青→桃色に変化→水の存在を確認。木片には水素原子がふくまれていることがわかる。"},
+      {type:"select",q:"酸化銅と炭素の混合物を加熱したとき、試験管Bの石灰水が白くにごった。発生した気体は何か。",choices:["二酸化炭素","酸素","水素","一酸化炭素"],a:"二酸化炭素",exp:"炭素が酸化されてCO₂が発生し、石灰水を白くにごらせる。"},
+      {type:"fill",q:"酸化銅と炭素の反応で、酸化銅が酸素をうばわれて銅になる変化を【　】という。",a:"還元",exp:"2CuO＋C→2Cu＋CO₂。酸化銅は還元され、炭素は酸化される。"},
+      {type:"select",q:"酸化銅と炭素の反応で、炭素は酸化銅から酸素をうばった。炭素は銅より酸素と結びつきやすいといえるか。",choices:["結びつきやすい","結びつきにくい","同じくらい","反応しない"],a:"結びつきやすい",exp:"炭素が酸化銅から酸素をうばうということは、炭素が銅より酸素と結びつきやすい物質だといえる。"},
+      {type:"fill",q:"製鉄所で、酸化鉄にコークス（炭素）を加えて加熱すると、酸化鉄が【　】されて鉄がとり出される。",a:"還元",exp:"酸化鉄（Fe₂O₃）が還元されて鉄（Fe）になる。コークスの炭素が酸素をうばう。"},
+    ]
+  },
+  {
+    id:"u4", label:"4章 化学変化と質量の変化", icon:"⚖️", color:"#8e44ad",
+    qs:[
+      {type:"fill",q:"化学変化の前後で物質全体の質量は変化しない。この法則を【　】という。",a:"質量保存の法則",exp:"化学変化だけでなく物理変化にも成り立つ法則。"},
+      {type:"select",q:"質量保存の法則が成り立つ理由として正しいのはどれか。",choices:["化学変化の前後で原子の種類と数が変わらないから","化学変化の前後で分子の数が変わらないから","化学変化の前後で体積が変わらないから","化学変化では熱が発生しないから"],a:"化学変化の前後で原子の種類と数が変わらないから",exp:"原子は化学変化で新たにできたり、なくなったりしないため、質量の合計は変わらない。"},
+      {type:"select",q:"硫酸と塩化バリウム水溶液を混ぜ合わせると白い沈殿ができた。反応の前後で全体の質量はどうなるか。",choices:["変わらない","ふえる","減る","反応によって異なる"],a:"変わらない",exp:"密閉していなくても沈殿反応では気体が発生しないため、質量は変わらない。"},
+      {type:"select",q:"炭酸水素ナトリウムと塩酸を密閉容器で反応させたあと、ふたをあけると質量はどうなるか。",choices:["減る","ふえる","変わらない","2倍になる"],a:"減る",exp:"反応で発生したCO₂（気体）が空気中に逃げるため、質量が減る。密閉中は質量保存の法則が成り立つ。"},
+      {type:"fill",q:"気体が発生する反応では、ふたをあけると気体が空気中に逃げるため、質量は【　】。",a:"減る",exp:"発生した気体の分だけ質量が減る。密閉容器内では質量は変化しない（質量保存の法則）。"},
+      {type:"select",q:"化学変化の前後で変化しないものはどれか。",choices:["各原子の数","分子の数","物質の種類","物質の状態"],a:"各原子の数",exp:"化学変化では原子の組み合わせが変わるが、原子の種類と数は変わらない。これが質量保存の法則の根拠。"},
+    ]
+  },
+];
+
+// ── ユーティリティ ──────────────────────────────────
+function shuffle(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+function makeChoices(q){
+  // For select: shuffle the given choices
+  // For fill: not used
+  return shuffle([...q.choices]);
+}
+
+// ── 状態 ────────────────────────────────────────────
+let S={screen:"home",unit:null,deck:[],idx:0,choices:[],sel:null,fillVal:"",fillOk:null,score:{ok:0,ng:0}};
+function set(patch){Object.assign(S,patch);render();}
+
+function startUnit(unit){
+  const deck=shuffle(unit.qs);
+  const choices=deck[0].type==="select"?makeChoices(deck[0]):[];
+  set({screen:"study",unit,deck,idx:0,choices,sel:null,fillVal:"",fillOk:null,score:{ok:0,ng:0}});
+}
+function goNext(){
+  const n=S.idx+1;
+  if(n>=S.deck.length){set({screen:"result"});return;}
+  const choices=S.deck[n].type==="select"?makeChoices(S.deck[n]):[];
+  set({idx:n,choices,sel:null,fillVal:"",fillOk:null});
+}
+function pickSel(c){
+  if(S.sel!==null)return;
+  const ok=c===S.deck[S.idx].a;
+  set({sel:c,score:{ok:S.score.ok+(ok?1:0),ng:S.score.ng+(ok?0:1)}});
+}
+function checkFill(){
+  const ok=S.fillVal.trim()===S.deck[S.idx].a||S.fillVal.trim().replace(/\s/g,"")===S.deck[S.idx].a.replace(/\s/g,"");
+  set({fillOk:ok,score:{ok:S.score.ok+(ok?1:0),ng:S.score.ng+(ok?0:1)}});
+}
+
+// ── DOM構築ヘルパー ──────────────────────────────────
+function el(tag,attrs,kids){
+  const e=document.createElement(tag);
+  for(const[k,v] of Object.entries(attrs||{})){
+    if(k==="style"&&typeof v==="object")Object.assign(e.style,v);
+    else if(k==="onClick")e.addEventListener("click",v);
+    else if(k==="onInput")e.addEventListener("input",v);
+    else if(k==="onKeydown")e.addEventListener("keydown",v);
+    else if(k==="disabled"){if(v)e.disabled=true;}
+    else if(k==="placeholder")e.placeholder=v;
+    else if(k==="value")e.value=v;
+    else if(k==="type")e.type=v;
+    else e[k]=v;
+  }
+  for(const c of(kids||[])){
+    if(c==null)continue;
+    e.appendChild(typeof c==="string"||typeof c==="number"?document.createTextNode(String(c)):c);
+  }
+  return e;
+}
+const D=(a,k)=>el("div",a,k);
+const P=(a,k)=>el("p",a,k);
+const B=(a,k)=>el("button",a,k);
+const Sp=(a,k)=>el("span",a,k);
+const H1=(a,k)=>el("h1",a,k);
+const H2=(a,k)=>el("h2",a,k);
+
+// ── レンダー ────────────────────────────────────────
+function render(){
+  const app=document.getElementById("app");
+  app.innerHTML="";
+  const {screen,unit,deck,idx,choices,sel,fillVal,fillOk,score}=S;
+  const uc=unit?unit.color:"#27ae60";
+  const total=deck.length;
+
+  // ヘッダー
+  const hd=D({className:"hd fade"},[
+    D({className:"hd-sub"},["SCIENCE QUIZ"]),
+    H1({className:"hd-title"},["理科 化学 問題集"]),
+    screen==="study"?D({className:"badges"},[
+      Sp({className:"badge",style:{background:"rgba(80,200,80,.15)",border:"1px solid rgba(80,200,80,.3)"}},[`${idx+1}/${total}`]),
+      Sp({className:"badge",style:{background:"rgba(39,174,96,.15)",border:"1px solid #27ae6055",color:"#7ef0a8"}},[`✅${score.ok}`]),
+      Sp({className:"badge",style:{background:"rgba(192,57,43,.15)",border:"1px solid #c0392b55",color:"#f08080"}},[`❌${score.ng}`]),
+    ]):null,
+  ]);
+  app.appendChild(hd);
+
+  // ── HOME ──
+  if(screen==="home"){
+    const home=D({className:"fade"},[P({style:{textAlign:"center",color:"#6a8a6a",fontSize:".85rem",marginBottom:"18px"}},["単元を選んでください"])]);
+    UNITS.forEach(u=>{
+      home.appendChild(D({className:"card",style:{borderColor:u.color},onClick:()=>startUnit(u)},[
+        D({style:{display:"flex",alignItems:"center",gap:"12px"}},[
+          Sp({style:{fontSize:"1.6rem"}},[u.icon]),
+          D({},[
+            D({style:{fontWeight:700,fontSize:".95rem"}},[u.label]),
+            D({style:{fontSize:".72rem",color:"#5a7a5a",marginTop:"2px"}},[`全${u.qs.length}問（選択＋穴埋めミックス）`]),
+          ]),
+          Sp({style:{marginLeft:"auto",color:u.color,fontSize:"1.2rem"}},["▶"]),
+        ]),
+      ]));
+    });
+    // 全問ミックス
+    const allQs=shuffle(UNITS.flatMap(u=>u.qs));
+    const allUnit={id:"all",label:"全章ミックス",icon:"🎯",color:"#e67e22",qs:allQs};
+    home.appendChild(D({className:"card",style:{borderColor:"#e67e22",background:"linear-gradient(135deg,rgba(30,20,10,.95),rgba(40,25,10,.9))"},onClick:()=>startUnit(allUnit)},[
+      D({style:{display:"flex",alignItems:"center",gap:"12px"}},[
+        Sp({style:{fontSize:"1.6rem"}},["🎯"]),
+        D({},[
+          D({style:{fontWeight:700,fontSize:".95rem"}},["全章ミックス"]),
+          D({style:{fontSize:".72rem",color:"#7a6a4a",marginTop:"2px"}},[`全${allQs.length}問 シャッフル`]),
+        ]),
+        Sp({style:{marginLeft:"auto",color:"#e67e22",fontSize:"1.2rem"}},["▶"]),
+      ]),
+    ]));
+    app.appendChild(home);
+    return;
+  }
+
+  // ── STUDY ──
+  if(screen==="study"&&idx<deck.length){
+    const q=deck[idx];
+    const sec=D({className:"fade"},[]);
+
+    // topbar
+    sec.appendChild(D({style:{display:"flex",alignItems:"center",gap:"8px",marginBottom:"12px"}},[
+      Sp({style:{fontSize:".9rem"}},[unit.icon]),
+      Sp({style:{fontSize:".76rem",color:uc,fontWeight:600}},[unit.label]),
+      Sp({className:"badge",style:{background:q.type==="select"?"rgba(39,120,200,.2)":"rgba(200,120,39,.2)",border:`1px solid ${q.type==="select"?"#2471a3":"#e67e22"}55`,color:q.type==="select"?"#7ab8ff":"#ffb87a",fontSize:".7rem",marginLeft:"4px"}},[q.type==="select"?"🔘 選択":"✏️ 穴埋め"]),
+      B({className:"btn-back",onClick:()=>set({screen:"home"})},["← 単元選択"]),
+    ]));
+
+    // progress
+    sec.appendChild(D({className:"prog"},[D({className:"prog-bar",style:{width:`${idx/total*100}%`,background:`linear-gradient(90deg,${uc},${uc}88)`}})]));
+
+    // 問題文
+    const qText=q.q.replace(/【　】/g,"＿＿＿");
+    sec.appendChild(D({className:"qbox",style:{border:`1px solid ${uc}33`}},[
+      D({style:{fontSize:".68rem",color:"#4a7a4a",marginBottom:"6px"}},[`Q${idx+1}. ${q.type==="select"?"選択問題":"穴埋め問題"}`]),
+      P({style:{margin:0,fontSize:".95rem",lineHeight:1.85,color:"#c8e8c8"}},[qText]),
+    ]));
+
+    // 選択問題
+    if(q.type==="select"){
+      choices.forEach((c,i)=>{
+        const answered=sel!==null;
+        const isRight=c===q.a,picked=sel===c;
+        let bg="rgba(10,25,15,.85)",bd="1px solid #1a3a1a",cl="#c8e8c8",op=1;
+        if(answered){
+          if(isRight){bg="rgba(39,174,96,.18)";bd="1px solid #27ae6077";cl="#7ef0a8";}
+          else if(picked){bg="rgba(192,57,43,.18)";bd="1px solid #c0392b77";cl="#f08080";}
+          else op=0.38;
+        }
+        const lbl=answered?(isRight?"○":picked?"✕":""):["A","B","C","D"][i];
+        const lblBg=answered?(isRight?"#27ae60":picked?"#c0392b":"#0a1a0a"):"#0a1a0a";
+        sec.appendChild(D({className:"choice"+(answered?" answered":""),style:{background:bg,border:bd,color:cl,opacity:op},onClick:answered?null:()=>pickSel(c)},[
+          Sp({style:{width:"26px",height:"26px",borderRadius:"7px",flexShrink:0,background:lblBg,border:answered?"none":"1px solid #334",display:"flex",alignItems:"center",justifyContent:"center",fontSize:".76rem",fontWeight:700,color:answered?"#fff":"#5a7a5a"}},[lbl]),
+          c,
+        ]));
+      });
+      if(sel!==null){
+        const ok=sel===q.a;
+        sec.appendChild(D({className:"result-banner",style:{background:ok?"rgba(39,174,96,.11)":"rgba(192,57,43,.11)",border:`1px solid ${ok?"#27ae60":"#c0392b"}55`,marginTop:"4px"}},[
+          D({style:{fontWeight:700,fontSize:"1rem",marginBottom:"5px",color:ok?"#7ef0a8":"#f08080"}},[ok?"🎉 正解！":`😅 不正解… 正解は「${q.a}」`]),
+          P({style:{margin:0,fontSize:".81rem",color:"#8a9a8a",lineHeight:1.72}},[q.exp]),
+        ]));
+        sec.appendChild(B({className:"btn",style:{background:`linear-gradient(135deg,${uc},${uc}bb)`,marginTop:"4px"},onClick:goNext},[idx+1>=total?"結果を見る 🏆":"次へ →"]));
+      }
+    }
+
+    // 穴埋め問題
+    if(q.type==="fill"){
+      const bd=fillOk===null?"rgba(80,200,80,.3)":fillOk?"#27ae60":"#c0392b";
+      const inp=el("input",{type:"text",placeholder:"答えを入力してEnterまたは確認",disabled:fillOk!==null,value:fillVal,
+        style:{width:"100%",padding:"14px 16px",borderRadius:"12px",background:"rgba(5,20,10,.9)",border:`2px solid ${bd}`,color:"#e8f0e8",fontSize:"1rem",outline:"none",marginBottom:"12px"},
+        onInput:e=>{S.fillVal=e.target.value;},
+        onKeydown:e=>{if(e.key==="Enter"&&fillOk===null&&S.fillVal.trim()!=="")checkFill();}
+      });
+      sec.appendChild(inp);
+      if(fillOk===null&&fillVal.trim()!==""){
+        sec.appendChild(B({className:"btn",style:{background:`linear-gradient(135deg,${uc},${uc}bb)`,marginBottom:"8px"},onClick:checkFill},["確認する ✅"]));
+      }
+      if(fillOk!==null){
+        sec.appendChild(D({className:"result-banner",style:{background:fillOk?"rgba(39,174,96,.11)":"rgba(192,57,43,.11)",border:`1px solid ${fillOk?"#27ae60":"#c0392b"}55`}},[
+          D({style:{fontWeight:700,fontSize:"1rem",marginBottom:"5px",color:fillOk?"#7ef0a8":"#f08080"}},[fillOk?"🎉 正解！":`😅 不正解… 正解は「${q.a}」`]),
+          P({style:{margin:0,fontSize:".81rem",color:"#8a9a8a",lineHeight:1.72}},[q.exp]),
+        ]));
+        sec.appendChild(B({className:"btn",style:{background:`linear-gradient(135deg,${uc},${uc}bb)`,marginTop:"8px"},onClick:goNext},[idx+1>=total?"結果を見る 🏆":"次へ →"]));
+      }
+    }
+
+    app.appendChild(sec);
+    return;
+  }
+
+  // ── RESULT ──
+  if(screen==="result"){
+    const pct=Math.round(score.ok/total*100);
+    const em=score.ok/total>=0.8?"🏆":score.ok/total>=0.5?"👍":"📚";
+    app.appendChild(D({className:"fade",style:{textAlign:"center",paddingTop:"20px"}},[
+      D({style:{fontSize:"3.5rem",marginBottom:"10px"}},[em]),
+      H2({style:{fontSize:"1.3rem",fontWeight:900,marginBottom:"5px",color:uc}},[`${unit.label} 完了！`]),
+      P({style:{fontSize:"1.9rem",fontWeight:900,marginBottom:"4px"}},[`${score.ok}`,Sp({style:{fontSize:".95rem",color:"#5a7a5a"}},[` / ${total} 問正解`])]),
+      P({style:{color:"#7a9a7a",fontSize:".85rem",marginBottom:"22px"}},[`正解率 ${pct}%　${pct>=80?"すばらしい！🎉":pct>=50?"なかなか👍":"もう一度復習しよう📖"}`]),
+      D({style:{display:"flex",gap:"9px",justifyContent:"center",flexWrap:"wrap"}},[
+        B({className:"btn",style:{background:`linear-gradient(135deg,${uc},${uc}99)`,width:"auto",padding:"11px 18px"},onClick:()=>startUnit(unit)},["もう一度"]),
+        B({className:"btn",style:{background:"rgba(30,50,30,.5)",border:"1px solid #334",color:"#6a8a6a",width:"auto",padding:"11px 18px"},onClick:()=>set({screen:"home"})},["← 単元選択"]),
+      ]),
+    ]));
+  }
+}
+
+render();
+</script>
+</body>
+</html>
