@@ -3,34 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>理科 化学 問題</title>
+<title>理科・社会 問題集</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{min-height:100vh;background:linear-gradient(135deg,#071408,#0a1e0e 60%,#060c10);font-family:'Hiragino Kaku Gothic ProN',sans-serif;color:#e8f0e8}
-.grid{position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(80,200,120,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(80,200,120,.03) 1px,transparent 1px);background-size:40px 40px}
+body{min-height:100vh;background:linear-gradient(135deg,#07070e,#0d0f1c 60%,#060c14);font-family:'Hiragino Kaku Gothic ProN',sans-serif;color:#e8e8f0}
+.grid{position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(100,120,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(100,120,255,.035) 1px,transparent 1px);background-size:40px 40px}
 .wrap{max-width:640px;margin:0 auto;padding:16px 14px}
-.hd{text-align:center;margin-bottom:18px}
-.hd-sub{font-size:.68rem;letter-spacing:.24em;color:#4caf50;text-transform:uppercase;margin-bottom:4px}
-.hd-title{font-size:1.5rem;font-weight:900;background:linear-gradient(90deg,#80ff80,#b0ffb0,#80e8ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hd{text-align:center;margin-bottom:14px}
+.hd-sub{font-size:.68rem;letter-spacing:.24em;color:#6478ff;text-transform:uppercase;margin-bottom:4px}
+.hd-title{font-size:1.45rem;font-weight:900;background:linear-gradient(90deg,#8fa8ff,#c8a8ff,#80ffb0);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.tab-row{display:flex;gap:8px;margin-bottom:16px}
+.tab{flex:1;padding:10px 0;border-radius:10px;border:none;font-weight:700;font-size:.88rem;cursor:pointer;transition:all .16s}
+.tab.active-sci{background:linear-gradient(135deg,#27ae60,#1e8449);color:#fff;box-shadow:0 4px 14px rgba(39,174,96,.4)}
+.tab.active-geo{background:linear-gradient(135deg,#e67e22,#ca6f1e);color:#fff;box-shadow:0 4px 14px rgba(230,126,34,.4)}
+.tab.active-his{background:linear-gradient(135deg,#c0392b,#a93226);color:#fff;box-shadow:0 4px 14px rgba(192,57,43,.4)}
+.tab.inactive{background:rgba(30,30,50,.6);border:1px solid #334;color:#778}
+.tab.active-geo{background:linear-gradient(135deg,#2471a3,#1a5276);color:#fff;box-shadow:0 4px 14px rgba(36,113,163,.4)}
+.tab.active-his{background:linear-gradient(135deg,#c0392b,#922b21);color:#fff;box-shadow:0 4px 14px rgba(192,57,43,.4)}
 .badge{display:inline-block;border-radius:20px;padding:2px 12px;font-size:.76rem}
 .badges{margin-top:8px;display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
-.card{background:linear-gradient(135deg,rgba(10,30,15,.95),rgba(15,40,20,.9));border-radius:13px;padding:13px 16px;margin-bottom:9px;cursor:pointer;transition:transform .16s,filter .16s;border-left:4px solid}
+.card{background:linear-gradient(135deg,rgba(16,16,32,.95),rgba(22,22,44,.9));border-radius:13px;padding:13px 16px;margin-bottom:9px;cursor:pointer;transition:transform .16s,filter .16s;border-left:4px solid}
 .card:hover{transform:translateY(-2px) scale(1.013);filter:brightness(1.1)}
-.choice{border-radius:11px;padding:12px 14px;display:flex;align-items:center;gap:10px;font-size:.92rem;margin-bottom:8px;cursor:pointer;transition:all .12s;border:1px solid #252545;background:rgba(18,30,20,.85);color:#c8e8c8}
+.choice{border-radius:11px;padding:12px 14px;display:flex;align-items:center;gap:10px;font-size:.9rem;margin-bottom:8px;cursor:pointer;transition:all .12s;border:1px solid #252545;background:rgba(18,20,44,.85);color:#ccd}
 .choice:hover{filter:brightness(1.12);transform:translateX(3px)}
 .choice.answered{cursor:default;transform:none}
-.prog{height:4px;background:#1a2a1a;border-radius:4px;margin-bottom:14px;overflow:"hidden"}
+.prog{height:4px;background:#1a1a35;border-radius:4px;margin-bottom:14px;overflow:hidden}
 .prog-bar{height:100%;border-radius:4px;transition:width .4s}
-.qbox{background:linear-gradient(135deg,rgba(10,30,15,.97),rgba(15,40,22,.9));border-radius:16px;padding:20px 18px;margin-bottom:14px;font-size:.95rem;line-height:1.85;color:#c8e8c8}
+.qbox{background:linear-gradient(135deg,rgba(18,20,44,.97),rgba(22,25,52,.9));border-radius:16px;padding:18px 16px;margin-bottom:14px;line-height:1.85}
 .result-banner{border-radius:12px;padding:12px 15px;margin-bottom:11px}
-.fill-input{width:100%;padding:14px 16px;border-radius:12px;background:rgba(10,25,15,.9);color:#e8f0e8;font-size:1rem;outline:none;margin-bottom:12px;transition:border .2s}
+.fill-input{width:100%;padding:13px 16px;border-radius:12px;background:rgba(10,12,28,.9);color:#e8e8f0;font-size:1rem;outline:none;margin-bottom:12px;transition:border .2s}
 .btn{padding:13px;border-radius:12px;border:none;color:#fff;font-weight:700;font-size:.95rem;cursor:pointer;transition:filter .14s;width:100%}
 .btn:hover{filter:brightness(1.15)}
-.btn-sm{padding:8px 0;border-radius:9px;font-size:.8rem;font-weight:600;cursor:pointer;flex:1;transition:filter .14s;border:none}
-.btn-sm:hover{filter:brightness(1.15)}
-.btn-back{background:rgba(80,200,120,.1);border:1px solid #334;border-radius:8px;color:#778;padding:4px 11px;font-size:.74rem;cursor:pointer}
+.btn-back{background:rgba(100,120,255,.1);border:1px solid #334;border-radius:8px;color:#778;padding:4px 11px;font-size:.74rem;cursor:pointer}
 .btn-back:hover{filter:brightness(1.2)}
-.tag{font-size:.68rem;color:#3a3;background:rgba(80,200,80,.1);border:1px solid rgba(80,200,80,.2);border-radius:6px;padding:2px 8px;margin-bottom:8px;display:inline-block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 .fade{animation:fadeIn .4s ease}
 </style>
@@ -39,86 +44,243 @@ body{min-height:100vh;background:linear-gradient(135deg,#071408,#0a1e0e 60%,#060
 <div class="grid"></div>
 <div class="wrap" id="app"></div>
 <script>
-// ── 問題データ ──────────────────────────────────────
-const UNITS = [
-  {
-    id:"u1", label:"1章 物質のなり立ち", icon:"⚗️", color:"#27ae60",
-    qs:[
-      {type:"select",q:"もとの物質とちがう物質ができる変化を何というか。",choices:["化学変化","物理変化","状態変化","電気分解"],a:"化学変化",exp:"化学反応ともいう。化学変化では新しい物質ができる。"},
-      {type:"select",q:"1種類の物質が2種類以上の物質に分かれる化学変化を何というか。",choices:["分解","化合","酸化","還元"],a:"分解",exp:"例：炭酸水素ナトリウムを加熱すると炭酸ナトリウム・水・二酸化炭素に分解する。"},
-      {type:"select",q:"物質に熱を加えて分解することを何というか。",choices:["熱分解","電気分解","酸化","化合"],a:"熱分解",exp:"炭酸水素ナトリウムの加熱分解が代表例。"},
-      {type:"select",q:"物質に電流を流して分解することを何というか。",choices:["電気分解","熱分解","分解","イオン化"],a:"電気分解",exp:"水に水酸化ナトリウムを加えて電流を流すと、水素と酸素に分解される。"},
-      {type:"fill",q:"物質をつくっている粒子で、それ以上分割することができない粒子を【　】という。",a:"原子",exp:"原子の種類を元素という。"},
-      {type:"fill",q:"原子の種類のことを【　】という。",a:"元素",exp:"元素を1〜2文字のアルファベットで表したものが元素記号。"},
-      {type:"fill",q:"元素を表す1文字または2文字のアルファベットからなる記号を【　】という。",a:"元素記号",exp:"例：水素H、酸素O、炭素C、銅Cu、鉄Feなど。"},
-      {type:"select",q:"原子を原子番号の順に並べ、性質をもとに元素を整理した表を何というか。",choices:["元素の周期表","分子モデル","化学反応式","物質一覧表"],a:"元素の周期表",exp:"縦の列を族、横の行を周期という。"},
-      {type:"fill",q:"いくつかの原子が結びついてできた、物質の性質を示す最小単位の粒子を【　】という。",a:"分子",exp:"例：水分子H₂O、酸素分子O₂など。"},
-      {type:"fill",q:"元素記号を用いて物質を表したものを【　】という。",a:"化学式",exp:"例：水はH₂O、二酸化炭素はCO₂。"},
-      {type:"select",q:"1種類の元素だけでできている物質を何というか。",choices:["単体","化合物","混合物","元素"],a:"単体",exp:"例：酸素O₂、銅Cu、鉄Feなど。"},
-      {type:"select",q:"2種類以上の元素からできている物質を何というか。",choices:["化合物","単体","混合物","分子"],a:"化合物",exp:"例：水H₂O、塩化ナトリウムNaCl、二酸化炭素CO₂など。"},
-      {type:"select",q:"2種類以上の物質が混じり合っているものを何というか。",choices:["混合物","化合物","単体","合金"],a:"混合物",exp:"例：空気（窒素・酸素などの混合物）、食塩水など。"},
-      {type:"fill",q:"炭酸水素ナトリウムを加熱すると発生する、石灰水を白くにごらせる気体は【　】である。",a:"二酸化炭素",exp:"化学式はCO₂。石灰水（水酸化カルシウム水溶液）と反応して炭酸カルシウムの白い沈殿ができる。"},
-      {type:"fill",q:"炭酸水素ナトリウムを加熱すると生じる、青色の塩化コバルト紙を桃色に変える液体は【　】である。",a:"水",exp:"化学式はH₂O。塩化コバルト紙が青→桃色に変化することで水の存在を確認できる。"},
-    ]
-  },
-  {
-    id:"u2", label:"2章 物質どうしの化学変化", icon:"🔬", color:"#2471a3",
-    qs:[
-      {type:"fill",q:"化学式を組み合わせて化学変化を表した式を【　】という。",a:"化学反応式",exp:"例：2H₂+O₂→2H₂O（水素と酸素が結びついて水ができる）"},
-      {type:"fill",q:"鉄と硫黄が結びついてできた黒色の物質を【　】という。",a:"硫化鉄",exp:"化学式はFeS。磁石につかず、塩酸を加えると腐卵臭のある硫化水素が発生する。"},
-      {type:"select",q:"鉄と硫黄の反応後にできた物質に塩酸を加えたとき発生する、腐卵臭のある気体は何か。",choices:["硫化水素","水素","二酸化硫黄","塩素"],a:"硫化水素",exp:"化学式はH₂S。腐卵臭（腐った卵のような臭い）が特徴。"},
-      {type:"select",q:"鉄と硫黄の混合物（反応前）に塩酸を加えたとき発生する気体は何か。",choices:["水素","硫化水素","酸素","二酸化炭素"],a:"水素",exp:"反応前の混合物には鉄が含まれており、塩酸と反応して水素H₂が発生する。"},
-      {type:"fill",q:"鉄と硫黄の反応を化学反応式で表すと「Fe＋S→【　】」となる。",a:"FeS",exp:"鉄（Fe）と硫黄（S）が結びついて硫化鉄（FeS）ができる。"},
-      {type:"select",q:"炭酸水素ナトリウムが消火剤として使われる理由に関係する化学変化は何か。",choices:["熱分解","電気分解","酸化","中和"],a:"熱分解",exp:"炭酸水素ナトリウムは熱で分解してCO₂を発生させ、炎と酸素が接するのを防ぐ。"},
-    ]
-  },
-  {
-    id:"u3", label:"3章 酸素がかかわる化学変化", icon:"🔥", color:"#c0392b",
-    qs:[
-      {type:"fill",q:"物質が酸素と結びつくことを【　】という。",a:"酸化",exp:"酸化によってできる物質を酸化物という。例：銅＋酸素→酸化銅"},
-      {type:"fill",q:"酸化によってできる物質を【　】という。",a:"酸化物",exp:"例：酸化銅CuO、酸化マグネシウムMgO、酸化鉄Fe₂O₃など。"},
-      {type:"fill",q:"物質が熱や光を出しながら激しく酸化されることを【　】という。",a:"燃焼",exp:"酸化の中でも特に激しい反応。スチールウール（鉄）やマグネシウムの燃焼が例。"},
-      {type:"fill",q:"酸化物から酸素がうばわれる化学変化を【　】という。",a:"還元",exp:"酸化と還元は同時に起こる。例：酸化銅＋炭素→銅＋二酸化炭素"},
-      {type:"select",q:"銅板を空気中で加熱したとき、表面にできる黒色の物質は何か。",choices:["酸化銅","硫化銅","炭素","酸化マグネシウム"],a:"酸化銅",exp:"銅（Cu）が空気中の酸素と結びついて酸化銅（CuO）ができる。化学反応式：2Cu＋O₂→2CuO"},
-      {type:"fill",q:"銅を加熱して酸化銅ができるときの化学反応式は「2Cu＋O₂→【　】」である。",a:"2CuO",exp:"銅2個と酸素分子1個が反応して酸化銅が2個できる。"},
-      {type:"select",q:"マグネシウムを加熱したとき、激しく光を出して燃える変化を特に何というか。",choices:["燃焼","酸化","還元","化合"],a:"燃焼",exp:"マグネシウムの燃焼：2Mg＋O₂→2MgO。白色の酸化マグネシウムができる。"},
-      {type:"fill",q:"マグネシウムを加熱したときの化学反応式は「2Mg＋O₂→【　】」である。",a:"2MgO",exp:"酸化マグネシウム（MgO）は白色の物質。"},
-      {type:"fill",q:"水素と酸素が反応して水ができるときの化学反応式は「2H₂＋O₂→【　】」である。",a:"2H₂O",exp:"水素と酸素が結びついて水ができる。筒内の水面が上昇するのは気体が減るからである。"},
-      {type:"select",q:"木片を燃やしたあと、石灰水が白くにごったことからわかることは何か。",choices:["二酸化炭素ができた","水素ができた","酸素ができた","窒素ができた"],a:"二酸化炭素ができた",exp:"石灰水が白くにごる→二酸化炭素が発生。木片には炭素原子がふくまれていることがわかる。"},
-      {type:"select",q:"木片を燃やしたあと、集気びんの内側が白くもってに、青色の塩化コバルト紙が桃色になったことからわかることは何か。",choices:["水ができた","二酸化炭素ができた","酸素ができた","硫化水素ができた"],a:"水ができた",exp:"塩化コバルト紙が青→桃色に変化→水の存在を確認。木片には水素原子がふくまれていることがわかる。"},
-      {type:"select",q:"酸化銅と炭素の混合物を加熱したとき、試験管Bの石灰水が白くにごった。発生した気体は何か。",choices:["二酸化炭素","酸素","水素","一酸化炭素"],a:"二酸化炭素",exp:"炭素が酸化されてCO₂が発生し、石灰水を白くにごらせる。"},
-      {type:"fill",q:"酸化銅と炭素の反応で、酸化銅が酸素をうばわれて銅になる変化を【　】という。",a:"還元",exp:"2CuO＋C→2Cu＋CO₂。酸化銅は還元され、炭素は酸化される。"},
-      {type:"select",q:"酸化銅と炭素の反応で、炭素は酸化銅から酸素をうばった。炭素は銅より酸素と結びつきやすいといえるか。",choices:["結びつきやすい","結びつきにくい","同じくらい","反応しない"],a:"結びつきやすい",exp:"炭素が酸化銅から酸素をうばうということは、炭素が銅より酸素と結びつきやすい物質だといえる。"},
-      {type:"fill",q:"製鉄所で、酸化鉄にコークス（炭素）を加えて加熱すると、酸化鉄が【　】されて鉄がとり出される。",a:"還元",exp:"酸化鉄（Fe₂O₃）が還元されて鉄（Fe）になる。コークスの炭素が酸素をうばう。"},
-    ]
-  },
-  {
-    id:"u4", label:"4章 化学変化と質量の変化", icon:"⚖️", color:"#8e44ad",
-    qs:[
-      {type:"fill",q:"化学変化の前後で物質全体の質量は変化しない。この法則を【　】という。",a:"質量保存の法則",exp:"化学変化だけでなく物理変化にも成り立つ法則。"},
-      {type:"select",q:"質量保存の法則が成り立つ理由として正しいのはどれか。",choices:["化学変化の前後で原子の種類と数が変わらないから","化学変化の前後で分子の数が変わらないから","化学変化の前後で体積が変わらないから","化学変化では熱が発生しないから"],a:"化学変化の前後で原子の種類と数が変わらないから",exp:"原子は化学変化で新たにできたり、なくなったりしないため、質量の合計は変わらない。"},
-      {type:"select",q:"硫酸と塩化バリウム水溶液を混ぜ合わせると白い沈殿ができた。反応の前後で全体の質量はどうなるか。",choices:["変わらない","ふえる","減る","反応によって異なる"],a:"変わらない",exp:"密閉していなくても沈殿反応では気体が発生しないため、質量は変わらない。"},
-      {type:"select",q:"炭酸水素ナトリウムと塩酸を密閉容器で反応させたあと、ふたをあけると質量はどうなるか。",choices:["減る","ふえる","変わらない","2倍になる"],a:"減る",exp:"反応で発生したCO₂（気体）が空気中に逃げるため、質量が減る。密閉中は質量保存の法則が成り立つ。"},
-      {type:"fill",q:"気体が発生する反応では、ふたをあけると気体が空気中に逃げるため、質量は【　】。",a:"減る",exp:"発生した気体の分だけ質量が減る。密閉容器内では質量は変化しない（質量保存の法則）。"},
-      {type:"select",q:"化学変化の前後で変化しないものはどれか。",choices:["各原子の数","分子の数","物質の種類","物質の状態"],a:"各原子の数",exp:"化学変化では原子の組み合わせが変わるが、原子の種類と数は変わらない。これが質量保存の法則の根拠。"},
-    ]
-  },
+// ═══════════════════════════════════════════════
+// 理科 問題データ
+// ═══════════════════════════════════════════════
+const SCI_UNITS = [
+  {id:"s1",label:"1章 物質のなり立ち",icon:"⚗️",color:"#27ae60",qs:[
+    {type:"select",q:"もとの物質とちがう物質ができる変化を何というか。",choices:["化学変化","物理変化","状態変化","電気分解"],a:"化学変化",exp:"化学反応ともいう。化学変化では新しい物質ができる。"},
+    {type:"select",q:"1種類の物質が2種類以上の物質に分かれる化学変化を何というか。",choices:["分解","化合","酸化","還元"],a:"分解",exp:"例：炭酸水素ナトリウムを加熱すると炭酸ナトリウム・水・二酸化炭素に分解する。"},
+    {type:"select",q:"物質に熱を加えて分解することを何というか。",choices:["熱分解","電気分解","酸化","化合"],a:"熱分解",exp:"炭酸水素ナトリウムの加熱分解が代表例。"},
+    {type:"select",q:"物質に電流を流して分解することを何というか。",choices:["電気分解","熱分解","分解","イオン化"],a:"電気分解",exp:"水に水酸化ナトリウムを加えて電流を流すと、水素と酸素に分解される。"},
+    {type:"fill",q:"物質をつくっている粒子で、それ以上分割することができない粒子を【　】という。",a:"原子",exp:"原子の種類を元素という。"},
+    {type:"fill",q:"原子の種類のことを【　】という。",a:"元素",exp:"元素を1〜2文字のアルファベットで表したものが元素記号。"},
+    {type:"fill",q:"元素を表す1文字または2文字のアルファベットからなる記号を【　】という。",a:"元素記号",exp:"例：水素H、酸素O、炭素C、銅Cu、鉄Feなど。"},
+    {type:"select",q:"原子を原子番号の順に並べ、性質をもとに元素を整理した表を何というか。",choices:["元素の周期表","分子モデル","化学反応式","物質一覧表"],a:"元素の周期表",exp:"縦の列を族、横の行を周期という。"},
+    {type:"fill",q:"いくつかの原子が結びついてできた、物質の性質を示す最小単位の粒子を【　】という。",a:"分子",exp:"例：水分子H₂O、酸素分子O₂など。"},
+    {type:"fill",q:"元素記号を用いて物質を表したものを【　】という。",a:"化学式",exp:"例：水はH₂O、二酸化炭素はCO₂。"},
+    {type:"select",q:"1種類の元素だけでできている物質を何というか。",choices:["単体","化合物","混合物","元素"],a:"単体",exp:"例：酸素O₂、銅Cu、鉄Feなど。"},
+    {type:"select",q:"2種類以上の元素からできている物質を何というか。",choices:["化合物","単体","混合物","分子"],a:"化合物",exp:"例：水H₂O、塩化ナトリウムNaCl、二酸化炭素CO₂など。"},
+    {type:"select",q:"2種類以上の物質が混じり合っているものを何というか。",choices:["混合物","化合物","単体","合金"],a:"混合物",exp:"例：空気、食塩水など。"},
+    {type:"fill",q:"炭酸水素ナトリウムを加熱すると発生する、石灰水を白くにごらせる気体は【　】である。",a:"二酸化炭素",exp:"化学式はCO₂。"},
+    {type:"fill",q:"炭酸水素ナトリウムを加熱すると生じる、青色の塩化コバルト紙を桃色に変える液体は【　】である。",a:"水",exp:"化学式はH₂O。塩化コバルト紙が青→桃色に変化することで確認できる。"},
+  ]},
+  {id:"s2",label:"2章 物質どうしの化学変化",icon:"🔬",color:"#2471a3",qs:[
+    {type:"fill",q:"化学式を組み合わせて化学変化を表した式を【　】という。",a:"化学反応式",exp:"例：2H₂+O₂→2H₂O"},
+    {type:"fill",q:"鉄と硫黄が結びついてできた黒色の物質を【　】という。",a:"硫化鉄",exp:"化学式はFeS。磁石につかず、塩酸を加えると硫化水素が発生する。"},
+    {type:"select",q:"鉄と硫黄の反応後にできた物質に塩酸を加えたとき発生する、腐卵臭のある気体は何か。",choices:["硫化水素","水素","二酸化硫黄","塩素"],a:"硫化水素",exp:"化学式はH₂S。腐卵臭が特徴。"},
+    {type:"select",q:"鉄と硫黄の混合物（反応前）に塩酸を加えたとき発生する気体は何か。",choices:["水素","硫化水素","酸素","二酸化炭素"],a:"水素",exp:"反応前の混合物には鉄が含まれており、塩酸と反応して水素H₂が発生する。"},
+    {type:"fill",q:"鉄と硫黄の反応を化学反応式で表すと「Fe＋S→【　】」となる。",a:"FeS",exp:"鉄（Fe）と硫黄（S）が結びついて硫化鉄（FeS）ができる。"},
+  ]},
+  {id:"s3",label:"3章 酸素がかかわる化学変化",icon:"🔥",color:"#c0392b",qs:[
+    {type:"fill",q:"物質が酸素と結びつくことを【　】という。",a:"酸化",exp:"酸化によってできる物質を酸化物という。"},
+    {type:"fill",q:"酸化によってできる物質を【　】という。",a:"酸化物",exp:"例：酸化銅CuO、酸化マグネシウムMgOなど。"},
+    {type:"fill",q:"物質が熱や光を出しながら激しく酸化されることを【　】という。",a:"燃焼",exp:"スチールウールやマグネシウムの燃焼が例。"},
+    {type:"fill",q:"酸化物から酸素がうばわれる化学変化を【　】という。",a:"還元",exp:"酸化と還元は同時に起こる。"},
+    {type:"select",q:"銅板を空気中で加熱したとき、表面にできる黒色の物質は何か。",choices:["酸化銅","硫化銅","炭素","酸化マグネシウム"],a:"酸化銅",exp:"銅（Cu）が酸素と結びついて酸化銅（CuO）ができる。"},
+    {type:"fill",q:"銅を加熱して酸化銅ができるときの化学反応式は「2Cu＋O₂→【　】」である。",a:"2CuO",exp:"銅2個と酸素分子1個が反応して酸化銅が2個できる。"},
+    {type:"fill",q:"マグネシウムを加熱したときの化学反応式は「2Mg＋O₂→【　】」である。",a:"2MgO",exp:"酸化マグネシウム（MgO）は白色の物質。"},
+    {type:"fill",q:"水素と酸素が反応して水ができるときの化学反応式は「2H₂＋O₂→【　】」である。",a:"2H₂O",exp:"水素と酸素が結びついて水ができる。"},
+    {type:"select",q:"木片を燃やしたあと、石灰水が白くにごったことからわかることは何か。",choices:["二酸化炭素ができた","水素ができた","酸素ができた","窒素ができた"],a:"二酸化炭素ができた",exp:"石灰水が白くにごる→二酸化炭素が発生。木片には炭素原子がふくまれている。"},
+    {type:"select",q:"酸化銅と炭素の反応で、酸化銅が酸素をうばわれて銅になる変化を何というか。",choices:["還元","酸化","化合","分解"],a:"還元",exp:"2CuO＋C→2Cu＋CO₂。酸化銅は還元され、炭素は酸化される。"},
+    {type:"fill",q:"製鉄所で、酸化鉄にコークス（炭素）を加えて加熱すると、酸化鉄が【　】されて鉄がとり出される。",a:"還元",exp:"酸化鉄（Fe₂O₃）が還元されて鉄（Fe）になる。"},
+  ]},
+  {id:"s4",label:"4章 化学変化と質量の変化",icon:"⚖️",color:"#8e44ad",qs:[
+    {type:"fill",q:"化学変化の前後で物質全体の質量は変化しない。この法則を【　】という。",a:"質量保存の法則",exp:"化学変化だけでなく物理変化にも成り立つ法則。"},
+    {type:"select",q:"質量保存の法則が成り立つ理由として正しいのはどれか。",choices:["化学変化の前後で原子の種類と数が変わらないから","分子の数が変わらないから","体積が変わらないから","熱が発生しないから"],a:"化学変化の前後で原子の種類と数が変わらないから",exp:"原子は化学変化で新たにできたり、なくなったりしないため、質量の合計は変わらない。"},
+    {type:"select",q:"炭酸水素ナトリウムと塩酸を密閉容器で反応させたあと、ふたをあけると質量はどうなるか。",choices:["減る","ふえる","変わらない","2倍になる"],a:"減る",exp:"反応で発生したCO₂が空気中に逃げるため、質量が減る。"},
+    {type:"select",q:"化学変化の前後で変化しないものはどれか。",choices:["各原子の数","分子の数","物質の種類","物質の状態"],a:"各原子の数",exp:"原子の種類と数は変わらない。これが質量保存の法則の根拠。"},
+  ]},
 ];
 
-// ── ユーティリティ ──────────────────────────────────
+// ═══════════════════════════════════════════════
+// 社会 問題データ
+// ═══════════════════════════════════════════════
+const GEO_UNITS = [
+  {id:"soc1",label:"5章 産業の特色①（農林水産業）",icon:"🌾",color:"#e67e22",qs:[
+    {type:"select",q:"農業・林業・漁業は第何次産業に分類されるか。",choices:["第1次産業","第2次産業","第3次産業","第4次産業"],a:"第1次産業",exp:"第1次産業は自然から直接とる産業。農業・林業・漁業が含まれる。"},
+    {type:"fill",q:"大都市の近くで、野菜や花などを大消費地向けに栽培する農業を【　】という。",a:"近郊農業",exp:"新鮮な野菜を素早く大都市に届けられる利点がある。"},
+    {type:"fill",q:"農作物の成長を速めて出荷時期を早める栽培方法を【　】という。",a:"促成栽培",exp:"高知平野や宮崎平野でビニールハウスを使った促成栽培が盛ん。"},
+    {type:"fill",q:"農作物の成長を遅らせて出荷時期をずらす栽培方法を【　】という。",a:"抑制栽培",exp:"高原の涼しい気候を利用して夏に野菜を出荷するなど。"},
+    {type:"select",q:"九州地方や北海道で特に盛んな農業で、肉牛などを育てる農業を何というか。",choices:["畜産","促成栽培","近郊農業","二毛作"],a:"畜産",exp:"九州南部のシラス台地や北海道の根釧台地で畜産が盛ん。"},
+    {type:"fill",q:"卵から人工的に育てた稚魚や稚貝を放流し、成長したあとにとる漁業を【　】という。",a:"栽培漁業",exp:"魚介類の資源を守りながら漁業を続けるための方法。"},
+    {type:"fill",q:"魚や貝を出荷まで人工的に育てて放流せずに収穫する漁業を【　】という。",a:"養殖業",exp:"瀬戸内海や有明海などで盛ん。"},
+    {type:"select",q:"日本の漁獲量が最も多い漁業はどれか。",choices:["沖合漁業","遠洋漁業","沿岸漁業","養殖業"],a:"沖合漁業",exp:"沖合漁業が漁獲量全体で最も多い。200海里問題以降、遠洋漁業は減少した。"},
+    {type:"select",q:"日本の食料自給率について正しいのはどれか。",choices:["他の先進国と比べてひじょうに低い","他の先進国と同じくらいである","他の先進国と比べて高い","穀物の自給率は100%に近い"],a:"他の先進国と比べてひじょうに低い",exp:"日本の食料自給率（カロリーベース）は約38%（2022年）で、先進国の中で最低水準。"},
+  ]},
+  {id:"soc2",label:"5章 産業の特色②（工業）",icon:"🏭",color:"#8e44ad",qs:[
+    {type:"select",q:"繊維や食料品など、おもに日常生活で使う軽い製品をつくる工業を何というか。",choices:["軽工業","重化学工業","先端技術産業","機械工業"],a:"軽工業",exp:"かつての日本の工業は繊維工業などの軽工業から始まった。"},
+    {type:"fill",q:"金属工業・機械工業・化学工業を合わせて【　】という。",a:"重化学工業",exp:"高度経済成長期に日本の工業の中心となった。"},
+    {type:"fill",q:"半導体の生産など、高度な技術を必要とする工業を【　】という。",a:"先端技術産業",exp:"ハイテク産業ともいう。IC（集積回路）などを製造する。"},
+    {type:"fill",q:"関東から九州北部にかけて帯状に広がる、工業がさかんな地域を【　】という。",a:"太平洋ベルト",exp:"太平洋側の沿岸に工業地帯・地域が集中している。"},
+    {type:"fill",q:"愛知県・三重県に広がる、機械工業がさかんな工業地帯を【　】という。",a:"中京工業地帯",exp:"自動車工業を中心に日本最大の工業出荷額をほこる。"},
+    {type:"fill",q:"東京・神奈川・埼玉にまたがる工業地帯を【　】という。",a:"京浜工業地帯",exp:"かつて日本最大の工業地帯だったが、現在は中京工業地帯が最大。"},
+    {type:"fill",q:"大阪・兵庫に広がる工業地帯を【　】という。",a:"阪神工業地帯",exp:"化学工業や金属工業が盛ん。"},
+    {type:"fill",q:"かつて製鉄業で栄えた、福岡県を中心とする工業地帯を【　】という。",a:"北九州工業地帯",exp:"1901年に官営の八幡製鉄所が作られ発展した。現在は「北九州工業地域」とも呼ばれる。"},
+    {type:"select",q:"1980年代にアメリカ合衆国などとの間に生じた、貿易を原因とする問題を何というか。",choices:["貿易摩擦","産業の空洞化","情報格差","過疎化"],a:"貿易摩擦",exp:"日本の輸出が増えすぎて相手国との間で問題が起きた。"},
+    {type:"fill",q:"日本企業の海外進出や海外工場からの輸入が増え、国内の一部工業の生産が衰退していく現象を【　】という。",a:"産業の空洞化",exp:"1980年代以降、日本の製造業が海外に移転し、国内産業が衰退する問題が起きた。"},
+    {type:"select",q:"自動車・オートバイ・飛行機などをつくる組み立て型の工業を何というか。",choices:["機械工業","化学工業","金属工業","食料品工業"],a:"機械工業",exp:"重化学工業の一つ。中京工業地帯で特に盛ん。"},
+  ]},
+  {id:"soc3",label:"5章 産業の特色③（商業・サービス業）",icon:"🛒",color:"#16a085",qs:[
+    {type:"select",q:"工業や建設業は第何次産業に分類されるか。",choices:["第2次産業","第1次産業","第3次産業","第4次産業"],a:"第2次産業",exp:"第2次産業は原料を加工して製品をつくる産業。"},
+    {type:"fill",q:"第3次産業に分類される商業のうち、小売業と【　】業に分けられる。",a:"卸売",exp:"卸売業は生産者から商品を仕入れ、小売業者に売る。"},
+    {type:"fill",q:"医療・福祉・教育などを含む第3次産業を【　】業という。",a:"サービス",exp:"サービス業は第3次産業の中でも急成長している分野。"},
+    {type:"fill",q:"インターネットで商品やサービスを売買することを【　】という。",a:"電子商取引",exp:"ECともいう。近年急速に普及している。"},
+    {type:"fill",q:"情報通信に関連する業種が成長し、情報社会となることを【　】化という。",a:"ICT",exp:"ICT（情報通信技術）の発達により産業や社会が変化している。"},
+  ]},
+  {id:"soc4",label:"6章 交通網・通信網・地域区分①",icon:"🚄",color:"#c0392b",qs:[
+    {type:"fill",q:"現代では、海上や空の交通網が発達したことで、【　】を越えた人や物の移動が活発になっている。",a:"国境",exp:"グローバル化により人・物・情報の国際的な移動が増えている。"},
+    {type:"select",q:"原油や液化天然ガス、機械や自動車などを輸送するときにおもに利用される輸送手段は何か。",choices:["船","航空機","鉄道","自動車"],a:"船",exp:"重量のある大型貨物は船（海上輸送）で大量に安く運べる。"},
+    {type:"select",q:"半導体などの電子部品のような、重さが軽くて高価なものの輸送に適した手段は何か。",choices:["航空機","船","鉄道","自動車"],a:"航空機",exp:"航空輸送は速く新鮮さが保てるが、運賃が高い。軽くて高価なものに適している。"},
+    {type:"fill",q:"大都市圏の通勤・通学などで多く利用されることから、日本の旅客輸送は【　】の占める割合が高い。",a:"鉄道",exp:"日本は鉄道網が発達しており、特に都市部での利用が多い。"},
+    {type:"fill",q:"高速道路が整備されたことで、国内の貨物輸送では【　】による輸送の割合が高くなった。",a:"自動車",exp:"トラックによる輸送が国内貨物輸送の中心となっている。"},
+    {type:"fill",q:"現在、パソコンやスマートフォンなどの【　】機器が世界で普及している。",a:"情報通信",exp:"ICT（情報通信技術）の発達により生活や産業が大きく変化している。"},
+    {type:"fill",q:"コンピュータをつなぐ【　】の普及によって、山間部や離島でも通信販売や医療診断などが可能になった。",a:"インターネット",exp:"インターネットにより地域間の情報格差も問題となっている。"},
+    {type:"fill",q:"情報通信技術（ICT）を利用できる人と利用できない人との間で生まれる格差を【　】という。",a:"情報格差",exp:"高齢者や過疎地域では情報格差が問題になっている。"},
+    {type:"fill",q:"1964年に開業した、東京〜新大阪間を結ぶ最初の新幹線を【　】新幹線という。",a:"東海道",exp:"1964年の東京オリンピックに合わせて開業。"},
+    {type:"fill",q:"北海道の空の玄関口となっている国際空港を【　】空港という。",a:"新千歳",exp:"札幌の近郊に位置し、北海道の主要な国際空港。"},
+    {type:"fill",q:"日本最大の貿易額の【　】国際空港は千葉県に位置する。",a:"成田",exp:"成田国際空港は日本最大の旅客・貨物の国際空港。"},
+  ]},
+  {id:"soc5",label:"6章 交通網・通信網・地域区分②",icon:"🗾",color:"#1a5276",qs:[
+    {type:"fill",q:"7地方区分で、京都府・大阪府・三重県などを含む地方を【　】地方という。",a:"近畿",exp:"京都・大阪・神戸を中心とする地方。"},
+    {type:"fill",q:"7地方区分で、長崎県・沖縄県・大分県・宮崎県を含む地方を【　】地方という。",a:"九州",exp:"九州7県と沖縄県を含む地方。"},
+    {type:"fill",q:"7地方区分で、新潟県・長野県・山梨県を含む地方を【　】地方という。",a:"中部",exp:"東海・北陸・甲信越をふくむ地方。"},
+    {type:"fill",q:"7地方区分で、島根県・徳島県・鳥取県・高知県を含む地方を【　】地方という。",a:"中国・四国",exp:"中国山地と四国山地をふくむ地方。"},
+    {type:"fill",q:"7地方区分で、山形県・宮城県・福島県を含む地方を【　】地方という。",a:"東北",exp:"6県からなる地方。東日本大震災（2011年）で大きな被害を受けた。"},
+    {type:"fill",q:"中国地方のうち、中国山地よりも北側の日本海に面した地域を【　】という。",a:"山陰",exp:"山陰は日本海側の気候で、冬に雪が多い。"},
+    {type:"fill",q:"中国地方のうち、中国山地よりも南側の瀬戸内海に面した地域を【　】という。",a:"山陽",exp:"山陽は瀬戸内気候で温暖・少雨。"},
+    {type:"fill",q:"特定のテーマを詳しく描いた地図を【　】図という。",a:"主題",exp:"例：人口分布図、土地利用図、気候図など。"},
+    {type:"select",q:"日本を大きく3つに区分したとき、中部地方あたりを境にして西側を何とよぶか。",choices:["西日本","北日本","南日本","中西部"],a:"西日本",exp:"日本は西日本と東日本に大きく分けられることがある。"},
+  ]},
+  {id:"soc6",label:"定期テスト対策（人口・資源・エネルギー）",icon:"📊",color:"#6c3483",qs:[
+    {type:"fill",q:"65歳以上の人口の割合が増加していくことを【　】化という。",a:"高齢",exp:"日本は世界でも有数の高齢社会。"},
+    {type:"fill",q:"人口が減少し、地域社会が成り立たなくなっている状態を【　】化という。",a:"過疎",exp:"農山村部で深刻。逆に都市部では過密化が問題。"},
+    {type:"fill",q:"出生率が低下し、子どもの数が減っていくことを【　】化という。",a:"少子",exp:"少子化と高齢化が同時に進む「少子高齢化」が日本の課題。"},
+    {type:"select",q:"過疎化が進む地域で発生する問題として誤っているものはどれか。",choices:["ごみ処理施設が不足する","労働力が不足する","公共施設が統合される","鉄道・バスが減便される"],a:"ごみ処理施設が不足する",exp:"過疎地では人口減少により労働力不足・公共サービスの低下・交通機関の廃止などが起こる。"},
+    {type:"select",q:"日本のエネルギー供給で最も割合が高いのはどれか。",choices:["石油","石炭","天然ガス","原子力"],a:"石油",exp:"日本は石油の輸入依存度が高く、中東からの輸入が多い。"},
+    {type:"fill",q:"水力発電・太陽光発電・風力発電・地熱発電など、環境にやさしく永続的に使えるエネルギーを【　】エネルギーという。",a:"再生可能",exp:"化石燃料と異なり、繰り返し使えるエネルギー。CO₂の排出が少ない。"},
+    {type:"fill",q:"火力発電で発生し、地球温暖化の原因となる気体は【　】である。",a:"二酸化炭素",exp:"CO₂。化石燃料（石炭・石油・天然ガス）を燃やすと発生する。"},
+    {type:"select",q:"2011年3月11日に発生した大地震による災害の総称は何か。",choices:["東日本大震災","阪神・淡路大震災","熊本地震","関東大震災"],a:"東日本大震災",exp:"この災害で原子力発電所の問題点（放射性物質の大量放出）が明らかになった。"},
+  ]},
+  {id:"soc7",label:"7章 九州地方①（自然・農業）",icon:"🌋",color:"#c0392b",qs:[
+    {type:"fill",q:"阿蘇山には、火山の爆発などでできた巨大なくぼ地の【　】がある。",a:"カルデラ",exp:"阿蘇山のカルデラは世界最大級。"},
+    {type:"fill",q:"九州の北西部は海岸線が複雑な【　】海岸となっている。",a:"リアス",exp:"入り江が複雑に入り組んだ地形。養殖業に適している。"},
+    {type:"fill",q:"鹿児島湾に面した火山を【　】山という。",a:"桜島",exp:"現在も活動中の活火山。噴火による火山灰が問題になっている。"},
+    {type:"fill",q:"九州地方には桜島・雲仙岳・阿蘇山などの【　】があり、たびたび噴火する。",a:"火山",exp:"火山が多い九州には地熱発電所も多く集まっている。"},
+    {type:"fill",q:"火山が噴火すると、噴石が飛んできたり、高温のガスが火山灰と共に流れる【　】が引きおこされるなど危険がある。",a:"火砕流",exp:"1991年の雲仙岳の噴火では火砕流で大きな被害が出た。"},
+    {type:"fill",q:"大分県の別府や湯布院は、火山の地下の熱水や水蒸気を利用した【　】発電所が多い地域として有名な観光地でもある。",a:"地熱",exp:"九州地方には国内の地熱発電所の7割が集まっている。"},
+    {type:"fill",q:"九州南部には、火山の噴出物でできた【　】台地が広がっている。",a:"シラス",exp:"シラス台地は水はけがよく稲作に向かないが、茶・さつまいも・畜産に利用されている。"},
+    {type:"fill",q:"九州地方の南部は、肉牛・豚・鶏を飼育する【　】がさかんである。",a:"畜産",exp:"鹿児島県・宮崎県が全国有数の畜産地域。"},
+    {type:"fill",q:"九州北部の【　】平野は、九州地方を代表する米の産地である。",a:"筑紫",exp:"筑紫平野では稲作が盛んで、冬は二毛作で小麦なども栽培される。"},
+    {type:"fill",q:"筑紫平野では、初夏から秋に稲作を行い、冬に小麦などをつくる【　】が行われている。",a:"二毛作",exp:"同じ耕地で1年に2種類の作物を栽培すること。"},
+    {type:"fill",q:"冬でも温暖な宮崎平野では、野菜の【　】栽培がさかんである。",a:"促成",exp:"ビニールハウスを使って野菜の成長を早め、他の産地が出荷できない冬に出荷する。"},
+    {type:"fill",q:"沖縄県では、砂糖の原料になる【　】が栽培されている。",a:"さとうきび",exp:"沖縄の温暖な気候を生かした作物。砂糖の原料になる。"},
+  ]},
+  {id:"soc8",label:"7章 九州地方②（産業・都市・南西諸島）",icon:"🏙️",color:"#117864",qs:[
+    {type:"fill",q:"古くから港町として発展し、九州地方最大の都市となっているのは【　】市である。",a:"福岡",exp:"博多湾に面した九州・沖縄地方の中心都市。"},
+    {type:"fill",q:"1901年に、現在の北九州市につくられた官営の製鉄所を【　】という。",a:"八幡製鉄所",exp:"中国から輸入した鉄鉱石と筑豊炭田の石炭を利用して発展した。"},
+    {type:"fill",q:"八幡製鉄所を中心に発達した工業地帯を【　】工業地帯という。",a:"北九州",exp:"かつては日本四大工業地帯の一つ。現在は「北九州工業地域」とも呼ばれる。"},
+    {type:"fill",q:"輸送に便利な高速道路や空港の近くに工場が多く進出している、電子回路を組み込んだ小型の部品を【　】という。",a:"半導体",exp:"IC（集積回路）のこと。九州はシリコンアイランドとも呼ばれる。"},
+    {type:"fill",q:"北九州市は、戦後に【　】が発生したが、現在は克服して「環境モデル都市」に認定されている。",a:"公害",exp:"かつて深刻だった大気汚染・水質汚染を克服し、環境都市として評価されている。"},
+    {type:"fill",q:"九州地方のD市（北九州市）では、自動車やパソコンなどの廃棄物を再利用する【　】事業が行われている。",a:"エコタウン",exp:"廃棄物のリサイクルを進める環境ビジネスの取り組み。"},
+    {type:"fill",q:"南西諸島の海には、美しい【　】礁が広がっており、多くの観光客が訪れる。",a:"サンゴ",exp:"沖縄の海には色鮮やかなサンゴ礁が広がる。"},
+    {type:"fill",q:"かつて、南西諸島は【　】王国という独立した国だった。",a:"琉球",exp:"1872年に日本に編入され（琉球処分）、1879年に沖縄県となった。"},
+    {type:"fill",q:"沖縄県の面積の約15%を【　】軍の専用施設が占めている。",a:"アメリカ",exp:"日米安全保障条約により、多くのアメリカ軍基地が沖縄に置かれている。"},
+    {type:"select",q:"奄美大島や徳之島、沖縄島北部、西表島は2021年に何に登録されたか。",choices:["世界自然遺産","世界文化遺産","ラムサール条約湿地","国立公園"],a:"世界自然遺産",exp:"固有の生物が多数生息する豊かな自然が評価され、2021年にユネスコ世界自然遺産に登録された。"},
+    {type:"select",q:"九州地方を訪れる外国人旅行者は、何州の人々が多いか。",choices:["アジア州","ヨーロッパ州","北アメリカ州","アフリカ州"],a:"アジア州",exp:"地理的に近い韓国・中国・台湾など東アジア・東南アジアからの旅行者が多い。"},
+  ]}
+];
+
+const HIS_UNITS = [
+  {id:"soc9",label:"6章 幕末①（ゆらぐ幕府・開国）",icon:"⛵",color:"#c0392b",qs:[
+    {type:"fill",q:"1825年に幕府が出した、外国船を見つけしだい打ち払う命令を【　】という。",a:"異国船打払令",exp:"アヘン戦争で清がイギリスに敗北したことを知り、1842年に撤廃した。"},
+    {type:"fill",q:"1837年、大阪で乱をおこした大阪町奉行所の元役人は【　】である。",a:"大塩平八郎",exp:"貧しい人々を救うため乱をおこしたが1日で鎮圧された。"},
+    {type:"fill",q:"1841年から水野忠邦が行った幕府の政治改革を【　】という。",a:"天保の改革",exp:"株仲間の解散・出稼ぎ禁止などを行ったが失敗に終わった。"},
+    {type:"fill",q:"幕府の対外政策を批判したことで処罰された渡辺崋山・高野長英らの事件を【　】という。",a:"蛮社の獄",exp:"1839年に起こった言論弾圧事件。"},
+    {type:"fill",q:"薩摩藩（鹿児島県）や長州藩（山口県）は【　】の改革に成功し、幕末の政治に大きな影響を与えた。",a:"藩政",exp:"両藩は雄藩として成長し、倒幕運動の中心となった。"},
+    {type:"fill",q:"1853年、4隻の軍艦を率いて浦賀に来航し、開国を求めたアメリカの使節は【　】である。",a:"ペリー",exp:"翌1854年に再来航し、日米和親条約を結んだ。"},
+    {type:"fill",q:"1854年に幕府がアメリカと結び、下田・函館の2港を開くことを決めた条約を【　】という。",a:"日米和親条約",exp:"これにより日本は開国した。"},
+    {type:"fill",q:"1858年に幕府がアメリカと結び、函館・神奈川・長崎・新潟・兵庫の5港を開くことを決めた条約を【　】という。",a:"日米修好通商条約",exp:"大老・井伊直弼が朝廷の許可なしに結んだ不平等条約。"},
+    {type:"fill",q:"日米修好通商条約で日本が認めた、日本で罪を犯した外国人をその国の領事が裁く権利を【　】という。",a:"治外法権",exp:"領事裁判権ともいう。日本にとって不平等な内容。"},
+    {type:"fill",q:"日米修好通商条約で日本に認められなかった、輸入品に自主的に関税をかける権利を【　】という。",a:"関税自主権",exp:"日本が関税自主権を回復するのは1911年のこと。"},
+    {type:"select",q:"日米修好通商条約が結ばれたことで、日本から大量に輸出され物価が高くなった品物（茶以外）は何か。",choices:["生糸","綿織物","武器","米"],a:"生糸",exp:"生糸と茶が主な輸出品で、綿織物が大量に輸入されて国内の綿織物業が打撃を受けた。"},
+  ]},
+  {id:"soc10",label:"6章 幕末②（倒幕・大政奉還）",icon:"⚔️",color:"#8e44ad",qs:[
+    {type:"fill",q:"幕府が開国を決めると、外国勢力を打ち払い、朝廷の権威を高めようとする【　】運動が高まった。",a:"尊王攘夷",exp:"下級武士や一部の公家のあいだで高まった運動。"},
+    {type:"fill",q:"大老・井伊直弼は吉田松陰らを処罰した。この弾圧事件を【　】という。",a:"安政の大獄",exp:"1858〜59年に起きた言論弾圧事件。"},
+    {type:"fill",q:"安政の大獄への反発から、1860年に井伊直弼が水戸藩の浪士らに暗殺された事件を【　】という。",a:"桜田門外の変",exp:"江戸城の桜田門外で起きた。幕府の権威が大きく失墜した。"},
+    {type:"fill",q:"攘夷が不可能とさとった長州藩と薩摩藩が、土佐藩出身の坂本龍馬らの仲立ちで1866年に結んだ同盟を【　】という。",a:"薩長同盟",exp:"倒幕を目的として結ばれた。"},
+    {type:"fill",q:"1867年、15代将軍徳川慶喜が政権を朝廷に返したことを【　】という。",a:"大政奉還",exp:"坂本龍馬らが実現に尽力した。"},
+    {type:"fill",q:"大政奉還を受けて、朝廷が幕府の廃止と天皇中心の新政府樹立を宣言したことを【　】という。",a:"王政復古の大号令",exp:"1867年に出された。岩倉具視らが中心となった。"},
+    {type:"fill",q:"新政府軍と旧幕府軍の戦いを【　】戦争という。",a:"戊辰",exp:"1868年の鳥羽・伏見の戦いから始まり、1869年の函館・五稜郭の戦いで終わった。"},
+    {type:"select",q:"薩長同盟の目的として正しいのはどれか。",choices:["江戸幕府を倒すこと","外国艦隊を打ち払うこと","江戸幕府をもり立てること","両藩の貿易をさかんにすること"],a:"江戸幕府を倒すこと",exp:"薩摩藩と長州藩が協力して幕府を倒すために結んだ。"},
+    {type:"select",q:"幕府の対外政策（鎖国）を批判して処罰された蛮社の獄に関係する人物を次から選べ。",choices:["渡辺崋山・高野長英","吉田松陰・木戸孝允","坂本龍馬・西郷隆盛","大久保利通・板垣退助"],a:"渡辺崋山・高野長英",exp:"蛮社の獄（1839年）で処罰された蘭学者たち。"},
+  ]},
+  {id:"soc11",label:"7章 明治維新①（新政府の方針・身分）",icon:"⛩️",color:"#27ae60",qs:[
+    {type:"fill",q:"1868年、明治天皇が神に誓う形で出された新政府の基本方針を【　】という。",a:"五箇条の御誓文",exp:"「広く会議を興し、万機公論に決すべし」など5か条の内容。"},
+    {type:"fill",q:"五箇条の御誓文の翌日に出された、国民への立て札を【　】という。",a:"五榜の掲示",exp:"一揆・キリスト教の禁止など旧幕府の政策を引き継いだ内容。"},
+    {type:"fill",q:"1869年、大名に土地と人民を天皇に返させたことを【　】という。",a:"版籍奉還",exp:"旧藩主がそのまま知藩事として藩政を行ったため効果は薄かった。"},
+    {type:"fill",q:"1871年、藩を廃止して府・県を置き、中央集権国家の基礎をつくった政策を【　】という。",a:"廃藩置県",exp:"中央から府知事・県令を派遣して地方を治めさせた。"},
+    {type:"fill",q:"新政府が「士・農・工・商」の封建的身分制度を廃止したことを【　】という。",a:"四民平等",exp:"皇族以外は平等として、華族・士族・平民の新身分制をつくった。"},
+    {type:"fill",q:"1871年、「えた」・「ひにん」などの差別されてきた身分を廃止したことを【　】という。",a:"解放令",exp:"しかし実際の差別はその後も根強く残った。"},
+    {type:"select",q:"五箇条の御誓文の内容として正しいのはどれか。",choices:["広く会議を興し、世論にしたがって政治を行う","大名は毎年4月中に江戸へ参勤すること","朝は早くおきて草をかり田畑を耕すこと","外国人を打ち払い、朝廷の権威を高める"],a:"広く会議を興し、世論にしたがって政治を行う",exp:"五箇条の御誓文の第1条「広く会議を興し、万機公論に決すべし」の内容。"},
+  ]},
+  {id:"soc12",label:"7章 明治維新②（富国強兵・文明開化）",icon:"🏭",color:"#e67e22",qs:[
+    {type:"fill",q:"明治政府が、欧米から機械を買い、富岡製糸場など国が経営する工場をつくったことを【　】政策という。",a:"殖産興業",exp:"近代産業の育成を目的とした政策。官営模範工場が中心。"},
+    {type:"fill",q:"経済力を高め、強い軍隊を持つという明治政府の政策を【　】という。",a:"富国強兵",exp:"殖産興業と並ぶ明治政府の近代化スローガン。"},
+    {type:"fill",q:"1872年に新橋〜横浜間で開通した近代的な交通機関は【　】である。",a:"鉄道",exp:"その2年後には大阪〜神戸間にも開通した。"},
+    {type:"fill",q:"1873年に明治政府が出した、満20歳以上の男子に3年間の兵役を義務づけた法令を【　】という。",a:"徴兵令",exp:"士族・平民の区別なく兵役を課した。これにより近代的軍隊が創設された。"},
+    {type:"fill",q:"地価の3%を地租として金納させる税制改革を【　】という。",a:"地租改正",exp:"1873年から実施。政府の財政収入を安定させたが、農民の負担は重かった。"},
+    {type:"fill",q:"地租改正で、土地の所有者に発行された土地の私有権を認める証明書を【　】という。",a:"地券",exp:"地価を定めて地券を発行し、地価の3%を地租として納めさせた。"},
+    {type:"fill",q:"1872年に政府が定め、6歳以上のすべての国民に小学校教育を受けさせることにした法令を【　】という。",a:"学制",exp:"全国に小学校を設立し、国民に教育を広めるための法令。"},
+    {type:"fill",q:"「学問のすゝめ」を書いて人間の平等と自立を説いた思想家は【　】である。",a:"福沢諭吉",exp:"慶應義塾を開き、「天は人の上に人をつくらず」の言葉で有名。"},
+    {type:"fill",q:"洋服や洋館など西洋風の生活様式がさかんに取り入れられたことを【　】という。",a:"文明開化",exp:"明治初期の社会の風潮。ガス灯・牛鍋・太陽暦なども取り入れられた。"},
+  ]},
+  {id:"soc13",label:"7章 明治維新③（国際関係・北海道）",icon:"🌏",color:"#2471a3",qs:[
+    {type:"fill",q:"1871年に明治政府が不平等条約改正のために欧米に派遣した使節団の全権大使は【　】である。",a:"岩倉具視",exp:"岩倉使節団は条約改正には失敗したが、欧米の文明・制度を視察した。"},
+    {type:"fill",q:"1871年に日本と清の間で結ばれた、相互に対等な地位を認めた最初の条約を【　】という。",a:"日清修好条規",exp:"日本と清にとって外国と結んだ最初の対等条約。"},
+    {type:"fill",q:"1876年に日本が朝鮮に認めさせた、朝鮮にとって不平等な内容を含む条約を【　】という。",a:"日朝修好条規",exp:"江華島事件をきっかけに締結。朝鮮を開国させた。"},
+    {type:"fill",q:"1875年に日本とロシアの国境を確定した条約を【　】という。",a:"樺太・千島交換条約",exp:"樺太（サハリン）をロシア領、千島列島全島を日本領と定めた。"},
+    {type:"fill",q:"1879年に日本が琉球藩を廃止して設置した県を【　】県という。",a:"沖縄",exp:"琉球処分ともいう。清との関係が問題となった。"},
+    {type:"fill",q:"蝦夷地を北海道と改め、開拓を進めるために設置された官庁を【　】という。",a:"開拓使",exp:"アメリカから外国人教師を招いて札幌農学校を開くなど、西洋技術を取り入れた。"},
+    {type:"fill",q:"蝦夷地に送られ、土地を耕しながら兵士の役割も担った人々を【　】という。",a:"屯田兵",exp:"旧東北諸藩の士族などが移住した。"},
+    {type:"fill",q:"北海道の開拓が進むとともに仕事や土地をうばわれ、生活に困るようになった先住民族を【　】民族という。",a:"アイヌ",exp:"独自の文化を持つ北海道の先住民族。開拓により生活が圧迫された。"},
+    {type:"select",q:"地租改正で定められた税の納め方として正しいのはどれか。",choices:["地価の3%を現金で納める","収穫量の3%を米で納める","地価の2%を現金で納める","収穫量の5%を米で納める"],a:"地価の3%を現金で納める",exp:"地価（土地の値段）の3%を現金（金納）で納める制度。農民の反発を受け、後に2.5%に引き下げられた。"},
+  ]},
+  {id:"soc14",label:"定期テスト対策（欧米近代化・幕末）",icon:"🌍",color:"#1a5276",qs:[
+    {type:"fill",q:"18世紀後半、イギリスで世界最初に起きた、蒸気機関などを使った大規模生産のしくみへの変化を【　】という。",a:"産業革命",exp:"工場制機械工業が発達し、資本主義が確立した。"},
+    {type:"fill",q:"産業革命において発達した、蒸気機関などを使って機械を動かして大規模生産を行うしくみを【　】という。",a:"工場制機械工業",exp:"工場に機械を置き、多くの労働者を雇って大量生産を行うしくみ。"},
+    {type:"fill",q:"17世紀後半にフランスで王政を行い、ベルサイユ宮殿を築いた国王は【　】である。",a:"ルイ14世",exp:"「朕は国家なり」の言葉で有名な絶対王政の代表的な国王。"},
+    {type:"select",q:"1688年に名誉革命がおこった国はどこか。",choices:["イギリス","フランス","アメリカ","ドイツ"],a:"イギリス",exp:"議会が国王を追放し、権利の章典を定めて議会政治の基礎を確立した。"},
+    {type:"select",q:"フランスで人民主権を主張した啓蒙思想家はだれか。",choices:["ルソー","クロムウェル","ワット","マルクス"],a:"ルソー",exp:"「社会契約論」をあらわして人民主権を説いた。フランス革命に大きな影響を与えた。"},
+    {type:"fill",q:"19世紀後半にプロイセンを中心にドイツ帝国を統一したときの宰相は【　】である。",a:"ビスマルク",exp:"「鉄血宰相」と呼ばれた。軍事力によってドイツを統一した。"},
+    {type:"select",q:"アヘン戦争の講和条約である南京条約の内容として誤っているものはどれか。",choices:["関税自主権は認められていた","おもな港を外国人に開いた","香港をイギリスに譲った","おもな港に租界という外国人居住区ができた"],a:"関税自主権は認められていた",exp:"南京条約では清の関税自主権は認められなかった。これが不平等条約の内容の一つ。"},
+    {type:"select",q:"三角貿易の流れとして正しいのはどれか。",choices:["イギリス→インド（綿製品）→清（アヘン）→イギリス（銀）","イギリス→清（綿製品）→インド（アヘン）→イギリス（銀）","インド→イギリス（綿製品）→清（アヘン）→インド（銀）","清→インド（アヘン）→イギリス（銀）→清（綿製品）"],a:"イギリス→インド（綿製品）→清（アヘン）→イギリス（銀）",exp:"イギリスはインドに綿製品を輸出し、インドから清にアヘンを密輸、清から銀・茶・絹を得た。"},
+    {type:"fill",q:"アヘン戦争後、清がイギリスと結んだ講和条約を【　】という。",a:"南京条約",exp:"1842年。清は香港をイギリスに譲り、上海など5港を開港した。"},
+    {type:"select",q:"1842年に江戸幕府が異国船打払令を撤廃した理由として正しいのはどれか。",choices:["アヘン戦争で清がイギリスに敗北したから","ラクスマンが根室に来航したから","アメリカで南北戦争がおこったから","フランス革命がおこり人権宣言が出されたから"],a:"アヘン戦争で清がイギリスに敗北したから",exp:"強国の清が敗れたことを知り、幕府は外国船への強硬策を改めた。"},
+  ]},
+];
+
+// ═══════════════════════════════════════════════
+// ユーティリティ
+// ═══════════════════════════════════════════════
 function shuffle(arr){
   const a=[...arr];
   for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
   return a;
 }
-function makeChoices(q){
-  // For select: shuffle the given choices
-  // For fill: not used
-  return shuffle([...q.choices]);
-}
+function makeChoices(q){return shuffle([...q.choices]);}
 
-// ── 状態 ────────────────────────────────────────────
-let S={screen:"home",unit:null,deck:[],idx:0,choices:[],sel:null,fillVal:"",fillOk:null,score:{ok:0,ng:0}};
+// ═══════════════════════════════════════════════
+// 状態
+// ═══════════════════════════════════════════════
+let S={
+  tab:"sci",        // "sci" | "geo" | "his"
+  screen:"home",    // "home" | "study" | "result"
+  unit:null, deck:[], idx:0,
+  choices:[], sel:null, fillVal:"", fillOk:null,
+  score:{ok:0,ng:0}
+};
 function set(patch){Object.assign(S,patch);render();}
 
 function startUnit(unit){
@@ -138,11 +300,14 @@ function pickSel(c){
   set({sel:c,score:{ok:S.score.ok+(ok?1:0),ng:S.score.ng+(ok?0:1)}});
 }
 function checkFill(){
-  const ok=S.fillVal.trim()===S.deck[S.idx].a||S.fillVal.trim().replace(/\s/g,"")===S.deck[S.idx].a.replace(/\s/g,"");
+  const ans=S.deck[S.idx].a;
+  const ok=S.fillVal.trim()===ans||S.fillVal.trim().replace(/\s/g,"")===ans.replace(/\s/g,"");
   set({fillOk:ok,score:{ok:S.score.ok+(ok?1:0),ng:S.score.ng+(ok?0:1)}});
 }
 
-// ── DOM構築ヘルパー ──────────────────────────────────
+// ═══════════════════════════════════════════════
+// DOM helpers
+// ═══════════════════════════════════════════════
 function el(tag,attrs,kids){
   const e=document.createElement(tag);
   for(const[k,v] of Object.entries(attrs||{})){
@@ -154,6 +319,7 @@ function el(tag,attrs,kids){
     else if(k==="placeholder")e.placeholder=v;
     else if(k==="value")e.value=v;
     else if(k==="type")e.type=v;
+    else if(k==="className")e.className=v;
     else e[k]=v;
   }
   for(const c of(kids||[])){
@@ -169,52 +335,64 @@ const Sp=(a,k)=>el("span",a,k);
 const H1=(a,k)=>el("h1",a,k);
 const H2=(a,k)=>el("h2",a,k);
 
-// ── レンダー ────────────────────────────────────────
+// ═══════════════════════════════════════════════
+// レンダー
+// ═══════════════════════════════════════════════
 function render(){
   const app=document.getElementById("app");
   app.innerHTML="";
-  const {screen,unit,deck,idx,choices,sel,fillVal,fillOk,score}=S;
-  const uc=unit?unit.color:"#27ae60";
+  const {tab,screen,unit,deck,idx,choices,sel,fillVal,fillOk,score}=S;
+  const uc=unit?unit.color:(tab==="sci"?"#27ae60":tab==="geo"?"#2471a3":"#c0392b");
   const total=deck.length;
+  const currentUnits=tab==="sci"?SCI_UNITS:tab==="geo"?GEO_UNITS:HIS_UNITS;
 
-  // ヘッダー
-  const hd=D({className:"hd fade"},[
-    D({className:"hd-sub"},["SCIENCE QUIZ"]),
-    H1({className:"hd-title"},["理科 化学 問題集"]),
+  // ── ヘッダー ──
+  app.appendChild(D({className:"hd fade"},[
+    D({className:"hd-sub"},["QUIZ APP"]),
+    H1({className:"hd-title"},["理科・社会 問題集"]),
     screen==="study"?D({className:"badges"},[
-      Sp({className:"badge",style:{background:"rgba(80,200,80,.15)",border:"1px solid rgba(80,200,80,.3)"}},[`${idx+1}/${total}`]),
+      Sp({className:"badge",style:{background:"rgba(100,120,255,.15)",border:"1px solid rgba(100,120,255,.3)"}},[`${idx+1}/${total}`]),
       Sp({className:"badge",style:{background:"rgba(39,174,96,.15)",border:"1px solid #27ae6055",color:"#7ef0a8"}},[`✅${score.ok}`]),
       Sp({className:"badge",style:{background:"rgba(192,57,43,.15)",border:"1px solid #c0392b55",color:"#f08080"}},[`❌${score.ng}`]),
     ]):null,
+  ]));
+
+  // ── タブ ──
+  const tabRow=D({className:"tab-row"},[
+    B({className:"tab "+(tab==="sci"?"active-sci":"inactive"),onClick:()=>set({tab:"sci",screen:"home",unit:null})},["⚗️ 理科"]),
+    B({className:"tab "+(tab==="geo"?"active-geo":"inactive"),onClick:()=>set({tab:"geo",screen:"home",unit:null})},["🌏 地理"]),
+    B({className:"tab "+(tab==="his"?"active-his":"inactive"),onClick:()=>set({tab:"his",screen:"home",unit:null})},["📜 歴史"]),
   ]);
-  app.appendChild(hd);
+  app.appendChild(tabRow);
 
   // ── HOME ──
   if(screen==="home"){
-    const home=D({className:"fade"},[P({style:{textAlign:"center",color:"#6a8a6a",fontSize:".85rem",marginBottom:"18px"}},["単元を選んでください"])]);
-    UNITS.forEach(u=>{
+    const home=D({className:"fade"},[
+      P({style:{textAlign:"center",color:"#778",fontSize:".85rem",marginBottom:"16px"}},["単元を選んでください"]),
+    ]);
+    currentUnits.forEach(u=>{
       home.appendChild(D({className:"card",style:{borderColor:u.color},onClick:()=>startUnit(u)},[
         D({style:{display:"flex",alignItems:"center",gap:"12px"}},[
-          Sp({style:{fontSize:"1.6rem"}},[u.icon]),
+          Sp({style:{fontSize:"1.5rem"}},[u.icon]),
           D({},[
-            D({style:{fontWeight:700,fontSize:".95rem"}},[u.label]),
-            D({style:{fontSize:".72rem",color:"#5a7a5a",marginTop:"2px"}},[`全${u.qs.length}問（選択＋穴埋めミックス）`]),
+            D({style:{fontWeight:700,fontSize:".93rem"}},[u.label]),
+            D({style:{fontSize:".7rem",color:"#556",marginTop:"2px"}},[`全${u.qs.length}問`]),
           ]),
           Sp({style:{marginLeft:"auto",color:u.color,fontSize:"1.2rem"}},["▶"]),
         ]),
       ]));
     });
     // 全問ミックス
-    const allQs=shuffle(UNITS.flatMap(u=>u.qs));
-    const allUnit={id:"all",label:"全章ミックス",icon:"🎯",color:"#e67e22",qs:allQs};
-    home.appendChild(D({className:"card",style:{borderColor:"#e67e22",background:"linear-gradient(135deg,rgba(30,20,10,.95),rgba(40,25,10,.9))"},onClick:()=>startUnit(allUnit)},[
+    const allQs=shuffle(currentUnits.flatMap(u=>u.qs));
+    const allUnit={id:"all",label:"全単元ミックス",icon:"🎯",color:tab==="sci"?"#27ae60":tab==="geo"?"#2471a3":"#c0392b",qs:allQs};
+    home.appendChild(D({className:"card",style:{borderColor:tab==="sci"?"#27ae60":tab==="geo"?"#e67e22":"#c0392b",background:"linear-gradient(135deg,rgba(20,20,40,.95),rgba(26,28,52,.9))"},onClick:()=>startUnit(allUnit)},[
       D({style:{display:"flex",alignItems:"center",gap:"12px"}},[
-        Sp({style:{fontSize:"1.6rem"}},["🎯"]),
+        Sp({style:{fontSize:"1.5rem"}},["🎯"]),
         D({},[
-          D({style:{fontWeight:700,fontSize:".95rem"}},["全章ミックス"]),
-          D({style:{fontSize:".72rem",color:"#7a6a4a",marginTop:"2px"}},[`全${allQs.length}問 シャッフル`]),
+          D({style:{fontWeight:700,fontSize:".93rem"}},["全単元ミックス"]),
+          D({style:{fontSize:".7rem",color:"#778",marginTop:"2px"}},[`全${allQs.length}問 シャッフル`]),
         ]),
-        Sp({style:{marginLeft:"auto",color:"#e67e22",fontSize:"1.2rem"}},["▶"]),
+        Sp({style:{marginLeft:"auto",color:tab==="sci"?"#27ae60":tab==="geo"?"#2471a3":"#c0392b",fontSize:"1.2rem"}},["▶"]),
       ]),
     ]));
     app.appendChild(home);
@@ -229,8 +407,8 @@ function render(){
     // topbar
     sec.appendChild(D({style:{display:"flex",alignItems:"center",gap:"8px",marginBottom:"12px"}},[
       Sp({style:{fontSize:".9rem"}},[unit.icon]),
-      Sp({style:{fontSize:".76rem",color:uc,fontWeight:600}},[unit.label]),
-      Sp({className:"badge",style:{background:q.type==="select"?"rgba(39,120,200,.2)":"rgba(200,120,39,.2)",border:`1px solid ${q.type==="select"?"#2471a3":"#e67e22"}55`,color:q.type==="select"?"#7ab8ff":"#ffb87a",fontSize:".7rem",marginLeft:"4px"}},[q.type==="select"?"🔘 選択":"✏️ 穴埋め"]),
+      Sp({style:{fontSize:".75rem",color:uc,fontWeight:600}},[unit.label]),
+      Sp({style:{fontSize:".68rem",background:q.type==="select"?"rgba(36,113,163,.2)":"rgba(230,126,34,.2)",border:`1px solid ${q.type==="select"?"#2471a3":"#e67e22"}55`,color:q.type==="select"?"#7ab8ff":"#ffb87a",borderRadius:"6px",padding:"2px 8px",marginLeft:"4px"}},[q.type==="select"?"🔘 選択":"✏️ 穴埋め"]),
       B({className:"btn-back",onClick:()=>set({screen:"home"})},["← 単元選択"]),
     ]));
 
@@ -240,8 +418,8 @@ function render(){
     // 問題文
     const qText=q.q.replace(/【　】/g,"＿＿＿");
     sec.appendChild(D({className:"qbox",style:{border:`1px solid ${uc}33`}},[
-      D({style:{fontSize:".68rem",color:"#4a7a4a",marginBottom:"6px"}},[`Q${idx+1}. ${q.type==="select"?"選択問題":"穴埋め問題"}`]),
-      P({style:{margin:0,fontSize:".95rem",lineHeight:1.85,color:"#c8e8c8"}},[qText]),
+      D({style:{fontSize:".68rem",color:"#445",marginBottom:"6px"}},[`Q${idx+1}. ${q.type==="select"?"選択問題":"穴埋め問題"}`]),
+      P({style:{margin:0,fontSize:".93rem",lineHeight:1.85,color:"#c8cce0"}},[qText]),
     ]));
 
     // 選択問題
@@ -249,16 +427,16 @@ function render(){
       choices.forEach((c,i)=>{
         const answered=sel!==null;
         const isRight=c===q.a,picked=sel===c;
-        let bg="rgba(10,25,15,.85)",bd="1px solid #1a3a1a",cl="#c8e8c8",op=1;
+        let bg="rgba(18,20,44,.85)",bd="1px solid #252545",cl="#ccd",op=1;
         if(answered){
           if(isRight){bg="rgba(39,174,96,.18)";bd="1px solid #27ae6077";cl="#7ef0a8";}
           else if(picked){bg="rgba(192,57,43,.18)";bd="1px solid #c0392b77";cl="#f08080";}
           else op=0.38;
         }
         const lbl=answered?(isRight?"○":picked?"✕":""):["A","B","C","D"][i];
-        const lblBg=answered?(isRight?"#27ae60":picked?"#c0392b":"#0a1a0a"):"#0a1a0a";
+        const lblBg=answered?(isRight?"#27ae60":picked?"#c0392b":"#1a1a35"):"#1a1a35";
         sec.appendChild(D({className:"choice"+(answered?" answered":""),style:{background:bg,border:bd,color:cl,opacity:op},onClick:answered?null:()=>pickSel(c)},[
-          Sp({style:{width:"26px",height:"26px",borderRadius:"7px",flexShrink:0,background:lblBg,border:answered?"none":"1px solid #334",display:"flex",alignItems:"center",justifyContent:"center",fontSize:".76rem",fontWeight:700,color:answered?"#fff":"#5a7a5a"}},[lbl]),
+          Sp({style:{width:"26px",height:"26px",borderRadius:"7px",flexShrink:0,background:lblBg,border:answered?"none":"1px solid #334",display:"flex",alignItems:"center",justifyContent:"center",fontSize:".76rem",fontWeight:700,color:answered?"#fff":"#556"}},[lbl]),
           c,
         ]));
       });
@@ -266,7 +444,7 @@ function render(){
         const ok=sel===q.a;
         sec.appendChild(D({className:"result-banner",style:{background:ok?"rgba(39,174,96,.11)":"rgba(192,57,43,.11)",border:`1px solid ${ok?"#27ae60":"#c0392b"}55`,marginTop:"4px"}},[
           D({style:{fontWeight:700,fontSize:"1rem",marginBottom:"5px",color:ok?"#7ef0a8":"#f08080"}},[ok?"🎉 正解！":`😅 不正解… 正解は「${q.a}」`]),
-          P({style:{margin:0,fontSize:".81rem",color:"#8a9a8a",lineHeight:1.72}},[q.exp]),
+          P({style:{margin:0,fontSize:".8rem",color:"#8a9aaa",lineHeight:1.72}},[q.exp]),
         ]));
         sec.appendChild(B({className:"btn",style:{background:`linear-gradient(135deg,${uc},${uc}bb)`,marginTop:"4px"},onClick:goNext},[idx+1>=total?"結果を見る 🏆":"次へ →"]));
       }
@@ -274,9 +452,10 @@ function render(){
 
     // 穴埋め問題
     if(q.type==="fill"){
-      const bd=fillOk===null?"rgba(80,200,80,.3)":fillOk?"#27ae60":"#c0392b";
+      const bd2=fillOk===null?"rgba(100,120,255,.3)":fillOk?"#27ae60":"#c0392b";
       const inp=el("input",{type:"text",placeholder:"答えを入力してEnterまたは確認",disabled:fillOk!==null,value:fillVal,
-        style:{width:"100%",padding:"14px 16px",borderRadius:"12px",background:"rgba(5,20,10,.9)",border:`2px solid ${bd}`,color:"#e8f0e8",fontSize:"1rem",outline:"none",marginBottom:"12px"},
+        className:"fill-input",
+        style:{border:`2px solid ${bd2}`},
         onInput:e=>{S.fillVal=e.target.value;},
         onKeydown:e=>{if(e.key==="Enter"&&fillOk===null&&S.fillVal.trim()!=="")checkFill();}
       });
@@ -287,7 +466,7 @@ function render(){
       if(fillOk!==null){
         sec.appendChild(D({className:"result-banner",style:{background:fillOk?"rgba(39,174,96,.11)":"rgba(192,57,43,.11)",border:`1px solid ${fillOk?"#27ae60":"#c0392b"}55`}},[
           D({style:{fontWeight:700,fontSize:"1rem",marginBottom:"5px",color:fillOk?"#7ef0a8":"#f08080"}},[fillOk?"🎉 正解！":`😅 不正解… 正解は「${q.a}」`]),
-          P({style:{margin:0,fontSize:".81rem",color:"#8a9a8a",lineHeight:1.72}},[q.exp]),
+          P({style:{margin:0,fontSize:".8rem",color:"#8a9aaa",lineHeight:1.72}},[q.exp]),
         ]));
         sec.appendChild(B({className:"btn",style:{background:`linear-gradient(135deg,${uc},${uc}bb)`,marginTop:"8px"},onClick:goNext},[idx+1>=total?"結果を見る 🏆":"次へ →"]));
       }
@@ -304,11 +483,11 @@ function render(){
     app.appendChild(D({className:"fade",style:{textAlign:"center",paddingTop:"20px"}},[
       D({style:{fontSize:"3.5rem",marginBottom:"10px"}},[em]),
       H2({style:{fontSize:"1.3rem",fontWeight:900,marginBottom:"5px",color:uc}},[`${unit.label} 完了！`]),
-      P({style:{fontSize:"1.9rem",fontWeight:900,marginBottom:"4px"}},[`${score.ok}`,Sp({style:{fontSize:".95rem",color:"#5a7a5a"}},[` / ${total} 問正解`])]),
-      P({style:{color:"#7a9a7a",fontSize:".85rem",marginBottom:"22px"}},[`正解率 ${pct}%　${pct>=80?"すばらしい！🎉":pct>=50?"なかなか👍":"もう一度復習しよう📖"}`]),
+      P({style:{fontSize:"1.9rem",fontWeight:900,marginBottom:"4px"}},[`${score.ok}`,Sp({style:{fontSize:".95rem",color:"#556"}},[` / ${total} 問正解`])]),
+      P({style:{color:"#778",fontSize:".85rem",marginBottom:"22px"}},[`正解率 ${pct}%　${pct>=80?"すばらしい！🎉":pct>=50?"なかなか👍":"もう一度復習しよう📖"}`]),
       D({style:{display:"flex",gap:"9px",justifyContent:"center",flexWrap:"wrap"}},[
         B({className:"btn",style:{background:`linear-gradient(135deg,${uc},${uc}99)`,width:"auto",padding:"11px 18px"},onClick:()=>startUnit(unit)},["もう一度"]),
-        B({className:"btn",style:{background:"rgba(30,50,30,.5)",border:"1px solid #334",color:"#6a8a6a",width:"auto",padding:"11px 18px"},onClick:()=>set({screen:"home"})},["← 単元選択"]),
+        B({className:"btn",style:{background:"rgba(30,30,50,.5)",border:"1px solid #334",color:"#778",width:"auto",padding:"11px 18px"},onClick:()=>set({screen:"home"})},["← 単元選択"]),
       ]),
     ]));
   }
