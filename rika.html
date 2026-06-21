@@ -275,18 +275,22 @@ function makeChoices(q){return shuffle([...q.choices]);}
 // 状態
 // ═══════════════════════════════════════════════
 let S={
-  tab:"sci",        // "sci" | "geo" | "his"
-  screen:"home",    // "home" | "study" | "result"
+  tab:"sci",
+  screen:"home",
   unit:null, deck:[], idx:0,
   choices:[], sel:null, fillVal:"", fillOk:null,
-  score:{ok:0,ng:0}
+  score:{ok:0,ng:0},
+  wrongList:[],     // 間違えた問題
+  cleared:{}        // クリア済み単元ID: {unitId: true}
 };
 function set(patch){Object.assign(S,patch);render();}
 
-function startUnit(unit){
-  const deck=shuffle(unit.qs);
+function startUnit(unit, mode){
+  const qs = mode==="wrong" ? S.wrongList : shuffle(unit.qs);
+  const deck = mode==="wrong" ? qs : qs;
   const choices=deck[0].type==="select"?makeChoices(deck[0]):[];
-  set({screen:"study",unit,deck,idx:0,choices,sel:null,fillVal:"",fillOk:null,score:{ok:0,ng:0}});
+  const wl = mode==="wrong" ? [] : [];
+  set({screen:"study",unit,deck,idx:0,choices,sel:null,fillVal:"",fillOk:null,score:{ok:0,ng:0},wrongList:wl});
 }
 function goNext(){
   const n=S.idx+1;
@@ -297,12 +301,14 @@ function goNext(){
 function pickSel(c){
   if(S.sel!==null)return;
   const ok=c===S.deck[S.idx].a;
-  set({sel:c,score:{ok:S.score.ok+(ok?1:0),ng:S.score.ng+(ok?0:1)}});
+  const wl=ok?S.wrongList:[...S.wrongList,S.deck[S.idx]];
+  set({sel:c,score:{ok:S.score.ok+(ok?1:0),ng:S.score.ng+(ok?0:1)},wrongList:wl});
 }
 function checkFill(){
   const ans=S.deck[S.idx].a;
   const ok=S.fillVal.trim()===ans||S.fillVal.trim().replace(/\s/g,"")===ans.replace(/\s/g,"");
-  set({fillOk:ok,score:{ok:S.score.ok+(ok?1:0),ng:S.score.ng+(ok?0:1)}});
+  const wl=ok?S.wrongList:[...S.wrongList,S.deck[S.idx]];
+  set({fillOk:ok,score:{ok:S.score.ok+(ok?1:0),ng:S.score.ng+(ok?0:1)},wrongList:wl});
 }
 
 // ═══════════════════════════════════════════════
@@ -371,11 +377,15 @@ function render(){
       P({style:{textAlign:"center",color:"#778",fontSize:".85rem",marginBottom:"16px"}},["単元を選んでください"]),
     ]);
     currentUnits.forEach(u=>{
-      home.appendChild(D({className:"card",style:{borderColor:u.color},onClick:()=>startUnit(u)},[
+      const isCleared=S.cleared[u.id]===true;
+      home.appendChild(D({className:"card",style:{borderColor:u.color,opacity:1},onClick:()=>startUnit(u)},[
         D({style:{display:"flex",alignItems:"center",gap:"12px"}},[
           Sp({style:{fontSize:"1.5rem"}},[u.icon]),
           D({},[
-            D({style:{fontWeight:700,fontSize:".93rem"}},[u.label]),
+            D({style:{fontWeight:700,fontSize:".93rem",display:"flex",alignItems:"center",gap:"6px"}},[
+              u.label,
+              isCleared?Sp({style:{fontSize:".8rem",color:"#7ef0a8",background:"rgba(39,174,96,.2)",border:"1px solid #27ae6055",borderRadius:"20px",padding:"1px 8px"}},["✅ クリア"]):null,
+            ]),
             D({style:{fontSize:".7rem",color:"#556",marginTop:"2px"}},[`全${u.qs.length}問`]),
           ]),
           Sp({style:{marginLeft:"auto",color:u.color,fontSize:"1.2rem"}},["▶"]),
@@ -480,13 +490,27 @@ function render(){
   if(screen==="result"){
     const pct=Math.round(score.ok/total*100);
     const em=score.ok/total>=0.8?"🏆":score.ok/total>=0.5?"👍":"📚";
+    const allCorrect=score.ok===total;
+    // 全問正解なら cleared に記録
+    if(allCorrect&&unit.id!=="all"){
+      S.cleared={...S.cleared,[unit.id]:true};
+    }
+    const wl=S.wrongList;
     app.appendChild(D({className:"fade",style:{textAlign:"center",paddingTop:"20px"}},[
       D({style:{fontSize:"3.5rem",marginBottom:"10px"}},[em]),
       H2({style:{fontSize:"1.3rem",fontWeight:900,marginBottom:"5px",color:uc}},[`${unit.label} 完了！`]),
       P({style:{fontSize:"1.9rem",fontWeight:900,marginBottom:"4px"}},[`${score.ok}`,Sp({style:{fontSize:".95rem",color:"#556"}},[` / ${total} 問正解`])]),
-      P({style:{color:"#778",fontSize:".85rem",marginBottom:"22px"}},[`正解率 ${pct}%　${pct>=80?"すばらしい！🎉":pct>=50?"なかなか👍":"もう一度復習しよう📖"}`]),
+      P({style:{color:"#778",fontSize:".85rem",marginBottom:wl.length>0?"14px":"22px"}},[`正解率 ${pct}%　${pct>=80?"すばらしい！🎉":pct>=50?"なかなか👍":"もう一度復習しよう📖"}`]),
+      wl.length>0?D({style:{background:"rgba(192,57,43,.12)",border:"1px solid #c0392b44",borderRadius:12,padding:"10px 14px",marginBottom:"18px",fontSize:".85rem",color:"#f08080"}},[
+        `❌ ${wl.length}問間違えました`,
+      ]):P({style:{color:"#7ef0a8",fontSize:".85rem",marginBottom:"22px"}},["🎉 全問正解！完璧です！"]),
       D({style:{display:"flex",gap:"9px",justifyContent:"center",flexWrap:"wrap"}},[
         B({className:"btn",style:{background:`linear-gradient(135deg,${uc},${uc}99)`,width:"auto",padding:"11px 18px"},onClick:()=>startUnit(unit)},["もう一度"]),
+        wl.length>0?B({className:"btn",style:{background:"rgba(192,57,43,.25)",border:"1px solid #c0392b55",color:"#f08080",width:"auto",padding:"11px 18px"},onClick:()=>{
+          const wrongUnit={...unit,qs:wl,id:"wrong",label:"間違えた問題"};
+          set({wrongList:[]});
+          startUnit(wrongUnit);
+        }},["❌ 間違えた問題だけ"]):null,
         B({className:"btn",style:{background:"rgba(30,30,50,.5)",border:"1px solid #334",color:"#778",width:"auto",padding:"11px 18px"},onClick:()=>set({screen:"home"})},["← 単元選択"]),
       ]),
     ]));
